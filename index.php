@@ -20,7 +20,6 @@ include_once("APP/Media.php")
                 $url = "https://www.youtube.com/watch?v=JBA72OcB_TIFARHAD";
                 $media = new Media($url);
                 $media->download();
-                $media->createThumbnail();
                 $media->play();
 
             ?>
@@ -28,7 +27,7 @@ include_once("APP/Media.php")
 
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
             <a class="thumbnail" href="#">
-                <img class="img-responsive" src="" alt="">
+                <img class="img-responsive" src="test/DollyStyle_UnicornsandIceCream.png" alt="">
             </a>
         </div>
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">

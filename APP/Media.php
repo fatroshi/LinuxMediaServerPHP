@@ -21,7 +21,7 @@ class Media
     function __construct($url) {
         $this->url = $url;
         // Set download directory
-        $this->downloadDirectory = "~/Desktop";
+        $this->downloadDirectory = "/Applications/MAMP/htdocs/cinema/test";
 
     }
 
@@ -135,6 +135,12 @@ class Media
             $this->cmdResult = $ret;
             return false;
         }
+    }
+
+    public function getThumbnailPath(){
+
+        // OBS !! WRONG, use only parent folder name (test) and file name!!!!
+        return $this->downloadDirectory . "/" . $this->fileName . ".png";
     }
 
 }
