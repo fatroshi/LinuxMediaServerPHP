@@ -38,8 +38,9 @@ include_once("APP/Media.php")
             <?php
 
                 $url = "https://www.youtube.com/watch?v=JBA72OcB_TIFARHAD";
-                $download = new Download($url);
-                $download->createThumbnail();
+                $media = new Media($url);
+                $media->
+                $media->createThumbnail();
 
             ?>
         </div>

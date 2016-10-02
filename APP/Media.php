@@ -22,16 +22,17 @@ class Media
 
     }
 
-    private function isYouTubeLink($url){
 
-        if (strpos($url, 'youtube.com') !== false) {
+    private function isYouTubeLink(){
+
+        if (strpos($this->url, 'youtube.com') !== false) {
             return true;
         }else{
             return false;
         }
     }
 
-    public function downloadYoutubeVideo(){
+    private function downloadYoutubeVideo(){
 
         $youtubeDL = "/usr/local/bin/youtube-dl -o '{$this->downloadDirectory}/%(title)s.%(ext)s' '{$this->url}' ";
         exec($youtubeDL, $output, $ret);
@@ -52,6 +53,12 @@ class Media
             $this->showErrors();
         }
 
+    }
+
+    public function download(){
+        if($this->isYouTubeLink()){
+            $this->downloadYoutubeVideo();
+        }
     }
 
     public function createThumbnail(){
