@@ -11,6 +11,7 @@ class Media
 
     private $url;
     private $downloadDirectory;
+    private $realFileName;
     private $fileName;
     private $filePath;
     private $cmdResult;
@@ -24,9 +25,9 @@ class Media
     }
 
 
-    function cleanPath ($str){
-        $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', '\'', "\"", '|');
-        $replace = array('.', '\&', 'A',  'A', 'O', 'a', 'a', 'o','','','.');
+    private function cleanPath ($str){
+        $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', "'", "\"");
+        $replace = array('\ ', '\&','A', 'A', 'O', 'a', 'a','o', "\\'", "\\\"");
 
         $str = str_replace($search, $replace, $str);
 
@@ -34,9 +35,9 @@ class Media
 
     }
 
-    function cleanFilename ($str){
-        $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', '\'', "\"", '|', '/');
-        $replace = array('.', 'and', 'A',  'A', 'O', 'a', 'a', 'o','','','.', '');
+    private function cleanNameForThumbnail ($str){
+        $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', "'", "\"", '|', '/', '-');
+        $replace = array('', 'and', 'A',  'A', 'O', 'a', 'a', 'o','','','.', '','_');
 
         $str = str_replace($search, $replace, $str);
 
@@ -64,10 +65,10 @@ class Media
             $filePath = substr($data, strpos($data, "/"));
 
             // Set file name
-            $this->fileName = $this->cleanFilename(explode( "/", $filePath));
+            $this->realFileName = end(explode( "/", $filePath));
+            $this->fileName = $this->cleanNameForThumbnail($this->realFileName);
 
             $this->filePath = $this->cleanPath($filePath);
-
         }else{
             $this->showErrors();
         }
@@ -82,7 +83,7 @@ class Media
 
     public function createThumbnail(){
 
-        $thumpnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  " . $this->downloadDirectory . "/image.png";
+        $thumpnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  " . $this->downloadDirectory . "/" . $this->fileName . ".png";
         exec($thumpnail, $output, $ret);
 
         if($ret ==0){
