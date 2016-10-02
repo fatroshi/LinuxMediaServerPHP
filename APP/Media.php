@@ -73,7 +73,7 @@ class Media
     }
 
     public function download(){
-        $this->message['Status'] = "Staring download...";
+        $this->message['Start'] = "Staring download...";
         if($this->isYouTubeLink()){
             $this->message['Type'] = "Video from youtube.";
             if($this->downloadYoutubeVideo()){
@@ -82,15 +82,15 @@ class Media
                     $this->message['Thumbnail_Status'] = "Thumbnail created";
                     $this->message['Status'] = "Success";
                 }else{
-                    $this->message['Thumbnail_Status'] = "Could not create thumbnail image";
+                    $this->message['Status'] = "Could not create thumbnail image";
                     return false;
                 }
             }else{
-                $this->message['Download_Status'] = "Could not download YouTube video: " . $this->realFileName;
+                $this->message['Status'] = "Could not download YouTube video: " . $this->realFileName;
                 return false;
             }
         }else{
-            $this->message['Type'] = "Unknown url...";
+            $this->message['Status'] = "Unknown url...";
             return false;
         }
     }
