@@ -11,6 +11,7 @@ class Media
 
     private $url;
     private $downloadDirectory;
+    private $fileName;
     private $filePath;
     private $cmdResult;
     private $cmdOutput;
@@ -22,6 +23,26 @@ class Media
 
     }
 
+
+    function cleanPath ($str){
+        $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', '\'', "\"", '|');
+        $replace = array('.', '\&', 'A',  'A', 'O', 'a', 'a', 'o','','','.');
+
+        $str = str_replace($search, $replace, $str);
+
+        return $str;
+
+    }
+
+    function cleanFilename ($str){
+        $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', '\'', "\"", '|', '/');
+        $replace = array('.', 'and', 'A',  'A', 'O', 'a', 'a', 'o','','','.', '');
+
+        $str = str_replace($search, $replace, $str);
+
+        return $str;
+
+    }
 
     private function isYouTubeLink(){
 
@@ -42,12 +63,10 @@ class Media
             $data = $output[3];
             $filePath = substr($data, strpos($data, "/"));
 
-            $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö');
-            $replace = array('\ ', '\&','A', 'A', 'O', 'a', 'a','o');
+            // Set file name
+            $this->fileName = $this->cleanFilename(explode( "/", $filePath));
 
-            $filePath = str_replace($search, $replace, $filePath);
-
-            $this->filePath = $filePath;
+            $this->filePath = $this->cleanPath($filePath);
 
         }else{
             $this->showErrors();
@@ -63,7 +82,7 @@ class Media
 
     public function createThumbnail(){
 
-        $thumpnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  /Users/Elise/Desktop/image.png";
+        $thumpnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  " . $this->downloadDirectory . "/image.png";
         exec($thumpnail, $output, $ret);
 
         if($ret ==0){

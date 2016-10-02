@@ -28,7 +28,7 @@ include_once("APP/Media.php")
 
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
             <a class="thumbnail" href="#">
-                <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                <img class="img-responsive" src="" alt="">
             </a>
         </div>
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
