@@ -13,26 +13,6 @@ include_once("APP/Media.php")
 
     <div class="row">
 
-        <?php
-
-            function cmd($program, $options){
-
-            }
-
-            function CleanForPlay (&$path){
-                $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö');
-                $replace = array('\ ', '\&','A', 'A', 'O', 'a', 'a','o');
-
-                echo str_replace($search, $replace, $path);
-
-                //return $path;
-            }
-
-        ?>
-
-
-
-
         <div class="col-lg-12">
             <h1 class="page-header">Thumbnail Gallery</h1>
             <?php
