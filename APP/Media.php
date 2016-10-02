@@ -6,7 +6,7 @@
  * Date: 02/10/16
  * Time: 20:44
  */
-class Download
+class Media
 {
 
     private $url;
@@ -20,9 +20,6 @@ class Download
         // Set download directory
         $this->downloadDirectory = "~/Desktop";
 
-        if($this->isYouTubeLink($this->url)){
-            $this->downloadYoutubeVideo();
-        }
     }
 
     private function isYouTubeLink($url){

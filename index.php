@@ -1,7 +1,7 @@
 
 <?php
 
-    include_once ("APP/Download.php")
+include_once("APP/Media.php")
 
 ?>
 <?php include_once("layout/header/header.php") ?>
