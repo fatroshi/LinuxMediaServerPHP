@@ -13,7 +13,6 @@ class Controller {
 
     function __construct() {
         $this->database = new Database();                                       // Connect to the database
-
     }
 
     /**
@@ -50,8 +49,6 @@ class Controller {
         // Get last inserted id
         return $this->database->getConnection()->insert_id;
     }
-
-
 
     /**
      * Display data in an array
