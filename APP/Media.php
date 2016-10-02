@@ -16,6 +16,7 @@ class Media
     private $filePath;
     private $cmdResult;
     private $cmdOutput;
+    private $message;
 
     function __construct($url) {
         $this->url = $url;
@@ -28,25 +29,18 @@ class Media
     private function cleanPath ($str){
         $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', "'", "\"");
         $replace = array('\ ', '\&','A', 'A', 'O', 'a', 'a','o', "\\'", "\\\"");
-
         $str = str_replace($search, $replace, $str);
-
         return $str;
-
     }
 
     private function cleanNameForThumbnail ($str){
         $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', "'", "\"", '|', '/', '-');
         $replace = array('', 'and', 'A',  'A', 'O', 'a', 'a', 'o','','','.', '','_');
-
         $str = str_replace($search, $replace, $str);
-
         return $str;
-
     }
 
     private function isYouTubeLink(){
-
         if (strpos($this->url, 'youtube.com') !== false) {
             return true;
         }else{
@@ -55,11 +49,9 @@ class Media
     }
 
     private function downloadYoutubeVideo(){
-
         $youtubeDL = "/usr/local/bin/youtube-dl -o '{$this->downloadDirectory}/%(title)s.%(ext)s' '{$this->url}' ";
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
-
             // Get file path
             $data = $output[3];
             $filePath = substr($data, strpos($data, "/"));
@@ -67,17 +59,39 @@ class Media
             // Set file name
             $this->realFileName = end(explode( "/", $filePath));
             $this->fileName = $this->cleanNameForThumbnail($this->realFileName);
-
             $this->filePath = $this->cleanPath($filePath);
+
+
+            return true;
         }else{
-            $this->showErrors();
+            // Fail
+            $this->cmdOutput = $output;
+            $this->cmdResult = $ret;
+            return false;
         }
 
     }
 
     public function download(){
+        $this->message['Status'] = "Staring download...";
         if($this->isYouTubeLink()){
-            $this->downloadYoutubeVideo();
+            $this->message['Type'] = "Video from youtube.";
+            if($this->downloadYoutubeVideo()){
+                $this->message['Download_Status'] = "Youtube video downloaded: " . $this->realFileName;
+                if($this->createThumbnail()){
+                    $this->message['Thumbnail_Status'] = "Thumbnail created";
+                    $this->message['Status'] = "Success";
+                }else{
+                    $this->message['Thumbnail_Status'] = "Could not create thumbnail image";
+                    return false;
+                }
+            }else{
+                $this->message['Download_Status'] = "Could not download YouTube video: " . $this->realFileName;
+                return false;
+            }
+        }else{
+            $this->message['Type'] = "Unknown url...";
+            return false;
         }
     }
 
@@ -88,10 +102,12 @@ class Media
 
         if($ret ==0){
             // Success
+            return true;
         }else{
             // Fail
             $this->cmdOutput = $output;
             $this->cmdResult = $ret;
+            return false;
         }
 
     }
@@ -112,10 +128,12 @@ class Media
 
         if($ret ==0){
             // Success
+            return true;
         }else{
             // Fail
             $this->cmdOutput = $output;
             $this->cmdResult = $ret;
+            return false;
         }
     }
 
