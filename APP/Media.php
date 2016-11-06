@@ -72,6 +72,12 @@ class Media
 
     }
 
+    /**
+     * Checks if the video was downloaded and that the thumbnail was created.
+     * For each step the status is stored in the message array.
+     *
+     * @return bool true if video was downloaded and thumbnail created
+     */
     public function download(){
         $this->message['Start'] = "Staring download...";
         if($this->isYouTubeLink()){
@@ -92,7 +98,7 @@ class Media
                 return false;
             }
         }else{
-            $this->message['Status'] = "Unknown url...";
+            $this->message['Status'] = "Unknown url: " . $this->url;
             return false;
         }
     }
@@ -149,12 +155,7 @@ class Media
     }
 
     public function getThumbnailPath(){
-
-        // OBS !! WRONG, use only parent folder name (test) and file name!!!!
-        //$output = end(explode( "/", $this->downloadDirectory));
-        $output = $this->downloadDirectory . $this->fileName . ".png";
-
-        return $output;
+        return $this->downloadDirectory . $this->fileName . ".png";
     }
 
     public function deleteFiles(){
