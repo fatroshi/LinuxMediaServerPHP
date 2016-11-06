@@ -78,11 +78,15 @@ include_once("APP/Media.php")
 
     <br>
     <br>
+    <br>
+    <h1>Download</h1>
 
     <div class="well">
         <form id="download">
-            <input id="url" name="url" type="text" value="" placeholder="URL..."/>
-            <input type="submit" value="Download" />
+            <div class="form-group">
+                <input id="url" name="url" type="text" value="" class="form-control" placeholder="URL..."/>
+            </div>
+            <input type="submit" value="Download" class="btn btn-default"/>
         </form>
     </div>
 
