@@ -76,32 +76,19 @@ include_once("APP/Media.php")
     <!-- Page Content -->
 <div class="container">
 
+    <br>
+    <br>
 
     <div class="well">
-        <br>
-        <br>
-
-        <div class="result">
-
-        </div>
-
         <form id="download">
             <label for="url">URL</label>
             <input id="url" name="url" type="text" value="" placeholder="URL..."/>
 
             <input type="submit" value="Download" />
         </form>
+    </div>
 
-
-
-
-        <?php
-
-        /*
-
-
-        */
-        ?>
+    <div class="result">
 
     </div>
 
