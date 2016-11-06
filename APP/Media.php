@@ -57,10 +57,10 @@ class Media
             $filePath = substr($data, strpos($data, "/"));
 
             // Set file name
-            $this->realFileName = end(explode( "/", $filePath));
+            $tmpArray = explode( "/", $filePath);
+            $this->realFileName = end($tmpArray);
             $this->fileName = $this->cleanNameForThumbnail($this->realFileName);
             $this->filePath = $this->cleanPath($filePath);
-
 
             return true;
         }else{
@@ -81,6 +81,8 @@ class Media
                 if($this->createThumbnail()){
                     $this->message['Thumbnail_Status'] = "Thumbnail created";
                     $this->message['Status'] = "Success";
+
+                    return true;
                 }else{
                     $this->message['Status'] = "Could not create thumbnail image";
                     return false;
@@ -95,6 +97,9 @@ class Media
         }
     }
 
+    /**
+     * @return bool true if the thumbnail could be created
+     */
     public function createThumbnail(){
 
         $thumpnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  " . $this->downloadDirectory . "/" . $this->fileName . ".png";
@@ -112,6 +117,9 @@ class Media
 
     }
 
+    /**
+     * Shows errors from the terminal
+     */
     public function showErrors(){
         echo "<pre><b>Something whent wrong:</b> <br/>CMD</pre>";
         echo "<pre>";
@@ -122,6 +130,9 @@ class Media
         echo "</pre>";
     }
 
+    /**
+     * @return bool true if possible to play the video
+     */
     public function play(){
         $play = "/usr/local/bin/mplayer " . $this->filePath ;
         exec($play, $output, $ret);
@@ -140,7 +151,112 @@ class Media
     public function getThumbnailPath(){
 
         // OBS !! WRONG, use only parent folder name (test) and file name!!!!
-        return $this->downloadDirectory . "/" . $this->fileName . ".png";
+        //$output = end(explode( "/", $this->downloadDirectory));
+        $output = $this->downloadDirectory . $this->fileName . ".png";
+
+        return $output;
     }
+
+    public function deleteFiles(){
+
+        $thumbnail = "test/" . $this->fileName . ".png";
+        $video = "test/" . $this->fileName;
+
+        if(file_exists($thumbnail)){
+            unlink($thumbnail);
+        }
+
+        if(file_exists($video)){
+            unlink($video);
+        }
+    }
+
+    public function showMessage(){
+        echo "<pre>";
+        echo var_export($this->message);
+        echo "</pre>";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param mixed $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDownloadDirectory()
+    {
+        return $this->downloadDirectory;
+    }
+
+    /**
+     * @param string $downloadDirectory
+     */
+    public function setDownloadDirectory($downloadDirectory)
+    {
+        $this->downloadDirectory = $downloadDirectory;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRealFileName()
+    {
+        return $this->realFileName;
+    }
+
+    /**
+     * @param mixed $realFileName
+     */
+    public function setRealFileName($realFileName)
+    {
+        $this->realFileName = $realFileName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param mixed $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * @param mixed $filePath
+     */
+    public function setFilePath($filePath)
+    {
+        $this->filePath = $filePath;
+    }
+
+
 
 }

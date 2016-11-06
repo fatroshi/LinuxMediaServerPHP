@@ -17,17 +17,23 @@ include_once("APP/Media.php")
             <h1 class="page-header">Thumbnail Gallery</h1>
             <?php
 
-                $url = "https://www.youtube.com/watch?v=JBA72OcB_TIFARHAD";
-                $media = new Media($url);
-                $media->download();
-                $media->play();
+               $url = "https://www.youtube.com/watch?v=JBA72OcB_TI";
+               $media = new Media($url);
+               if($media->download()){
+                   //$media->play();
+
+               }else{
+                $media->deleteFiles();
+                $media->showErrors();
+                $media->showMessage();
+               }
 
             ?>
         </div>
 
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
             <a class="thumbnail" href="#">
-                <img class="img-responsive" src="test/DollyStyle_UnicornsandIceCream.png" alt="">
+                <img class="img-responsive" src="<?php echo $media->getThumbnailPath() ?>" alt="">
             </a>
         </div>
         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
