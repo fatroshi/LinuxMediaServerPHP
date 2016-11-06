@@ -25,7 +25,7 @@ include_once("APP/Media.php")
                }else{
                 $media->deleteFiles();
                 $media->showErrors();
-                $media->showMessage();
+                $media->showMessages();
                }
 
             ?>

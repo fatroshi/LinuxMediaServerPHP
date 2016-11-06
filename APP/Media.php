@@ -172,7 +172,7 @@ class Media
         }
     }
 
-    public function showMessage(){
+    public function showMessages(){
         echo "<pre>";
         echo var_export($this->message);
         echo "</pre>";
