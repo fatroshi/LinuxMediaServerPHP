@@ -9,10 +9,10 @@
 class Database
 {
     // Database
-    private $servername     = "";
-    private $username       = "";
-    private $password       = "";
-    private $dbname         = "";
+    private $servername     = "localhost";
+    private $username       = "root";
+    private $password       = "root";
+    private $dbname         = "cinema";
     private $connection     = null;
 
     function __construct() {

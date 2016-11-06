@@ -6,13 +6,33 @@
  * Date: 02/10/16
  * Time: 22:43
  */
+
+
+include_once ("Database.php");
+include_once ("Media.php");
+
 class Controller {
 
     private $database;
-
+    private $media;
 
     function __construct() {
         $this->database = new Database();                                       // Connect to the database
+    }
+
+
+
+    public function download($url){
+
+        $media = new Media($url);
+        if($media->download()){
+            //$media->play();
+
+        }else{
+            $media->deleteFiles();
+            $media->showErrors();
+            $media->showMessages();
+        }
     }
 
     /**
