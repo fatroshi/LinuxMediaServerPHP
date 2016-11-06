@@ -20,7 +20,7 @@ class Media
 
     function __construct() {
         // Set download directory
-        $this->downloadDirectory = "/Applications/MAMP/htdocs/cinema/test";
+        $this->downloadDirectory = "/Applications/MAMP/htdocs/cinema/downloads";
 
     }
 
@@ -153,13 +153,14 @@ class Media
     }
 
     public function getThumbnailPath(){
-        return $this->downloadDirectory . $this->fileName . ".png";
+        return "downloads/" . $this->fileName . ".png";
     }
+
 
     public function deleteFiles(){
 
-        $thumbnail = "test/" . $this->fileName . ".png";
-        $video = "test/" . $this->fileName;
+        $thumbnail = "downloads/" . $this->fileName . ".png";
+        $video = "dowloads/" . $this->fileName;
 
         if(file_exists($thumbnail)){
             unlink($thumbnail);

@@ -1,7 +1,7 @@
 
 <?php
 
-include_once("APP/Media.php")
+include_once("APP/Controller.php")
 
 ?>
 <?php include_once("layout/header/header.php") ?>
@@ -88,6 +88,11 @@ include_once("APP/Media.php")
 
     </div>
 
+<?php
+    $controller = new Controller();
+    //$controller->saveItem();
+    echo $controller->getAllItems();
+?>
 
     <!-- /.container -->
 <?php include_once ("layout/footer/footer.php") ?>

@@ -8,11 +8,11 @@
  */
 class Item
 {
-    private $name;
     private $type;
     private $path;
-    private $thumbnail;
     private $status;
+    private $name;
+    private $thumbnail;
 
 
     public function __construct($name, $type, $path, $thumbnail)

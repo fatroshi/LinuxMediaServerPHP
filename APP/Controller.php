@@ -23,9 +23,64 @@ class Controller {
 
     public function download($url){
         $this->media->setUrl($url);
+    }
+
+    public function saveItem(){
+        $type = "mp4";
+        $path = $this->media->getFilePath();
+        $status = 0;
+        $name = $this->media->getRealFileName();
+        $thumbnail = $this->media->getThumbnailPath();
+
+        $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}')";
+
+        $conn = $this->database->getConnection();
+        if($conn->query($sql) === true){
+            echo "New record created successfully";
+        }else{
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
 
     }
 
+    public function getAllItems(){
+
+        $output = "";
+        $sql = "SELECT * FROM Items";
+
+        $conn = $this->database->getConnection();
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+
+                $filePath = $row['Path'];
+                $status = $row['Status'];
+                $fileName = $row['FileName'];
+                $thumbnail = $row['Thumbnail'];
+
+                $output .="<div class=\"col-sm-6 col-md-4\">";
+                    $output .="<div class=\"thumbnail\">";
+                    $output .="<img src=\"{$thumbnail}\" alt=\"...\">";
+                        $output .="<div class=\"caption\">";
+                            $output .="<h3>{$fileName}</h3>";
+                            $output .="<p>{$status}</p>";
+                            $output .="<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Button</a> <a href=\"#\" class=\"btn btn-default\" role=\"button\">Button</a></p>";
+                        $output .="</div>";
+                    $output .="</div>";
+                $output .="</div>";
+            }
+        } else {
+            echo "0 results";
+        }
+
+
+
+
+
+        return $output;
+    }
 
 
     /**
