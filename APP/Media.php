@@ -18,13 +18,11 @@ class Media
     private $cmdOutput;
     private $message;
 
-    function __construct($url) {
-        $this->url = $url;
+    function __construct() {
         // Set download directory
         $this->downloadDirectory = "/Applications/MAMP/htdocs/cinema/test";
 
     }
-
 
     private function cleanPath ($str){
         $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', "'", "\"");

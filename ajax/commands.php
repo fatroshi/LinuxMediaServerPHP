@@ -6,11 +6,15 @@
  * Time: 21:36
  */
 
-include_once ("../App/Media.php");
+include_once ("../App/Controller.php");
+
+$controller = new Controller();
 
 if(isset($_POST['url']) && $_POST['url'] != "") {
     $url = $_POST['url'];
-    $media = new Media($url);
+
+    $media = $controller->getMedia();
+    $media->setUrl($url);
 
     if($media->download()){
         echo "<div class=\"alert alert-success\" role=\"alert\">Download completed</div>";

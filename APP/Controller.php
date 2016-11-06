@@ -18,14 +18,15 @@ class Controller {
 
     function __construct() {
         $this->database = new Database();                                       // Connect to the database
+        $this->media = new Media();
     }
-
-
 
     public function download($url){
-
+        $this->media->setUrl($url);
 
     }
+
+
 
     /**
      * Get logged in user
@@ -81,4 +82,38 @@ class Controller {
     public function login($username, $password){
         return $this->user->login($username,$password);
     }
+
+    /**
+     * @return Database
+     */
+    public function getDatabase()
+    {
+        return $this->database;
+    }
+
+    /**
+     * @param Database $database
+     */
+    public function setDatabase($database)
+    {
+        $this->database = $database;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
+
+    /**
+     * @param Media $media
+     */
+    public function setMedia($media)
+    {
+        $this->media = $media;
+    }
+
+
 }
