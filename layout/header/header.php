@@ -32,3 +32,6 @@
 </head>
 
 <body>
+
+<!-- Page Content -->
+<div class="container">
