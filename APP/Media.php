@@ -79,8 +79,8 @@ class Media
      * @return bool true if video was downloaded and thumbnail created
      */
     public function download(){
-        $this->message['Start'] = "Staring download...";
         if($this->isYouTubeLink()){
+            $this->message['Start'] = "Staring download...";
             $this->message['Type'] = "Video from youtube.";
             if($this->downloadYoutubeVideo()){
                 $this->message['Download_Status'] = "Youtube video downloaded: " . $this->realFileName;
@@ -127,7 +127,7 @@ class Media
      * Shows errors from the terminal
      */
     public function showErrors(){
-        echo "<pre><b>Something whent wrong:</b> <br/>CMD</pre>";
+        echo "<b>CMD response:</b>";
         echo "<pre>";
         echo var_export($this->cmdOutput);
         echo "</pre>";

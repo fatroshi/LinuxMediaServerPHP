@@ -6,18 +6,24 @@
  * Time: 21:36
  */
 
-include_once ("../App/Controller.php");
+include_once ("../App/Media.php");
 
-$controller = new Controller();
+if(isset($_POST['url']) && $_POST['url'] != "") {
+    $url = $_POST['url'];
+    $media = new Media($url);
 
-if($_POST['url'] != "") {
-    $controller->download($_POST['url']);
+    if($media->download()){
+        echo "<div class=\"alert alert-success\" role=\"alert\">Download completed</div>";
+    }else{
+        echo "<div class=\"alert alert-danger\" role=\"alert\">";
+            $media->deleteFiles();
+            $media->showErrors();
+            $media->showMessages();
+        echo "</div>";
+    }
 
-
-
-    echo "<div class=\"alert alert-success\" role=\"alert\">Download completed</div>";
 }else{
-    echo "<div class=\"alert alert-danger\" role=\"alert\">Download completed</div>";
+    echo "<div class=\"alert alert-danger\" role=\"alert\">Please type in an URL...</div>";
 }
 
 

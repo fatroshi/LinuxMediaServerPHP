@@ -81,9 +81,7 @@ include_once("APP/Media.php")
 
     <div class="well">
         <form id="download">
-            <label for="url">URL</label>
             <input id="url" name="url" type="text" value="" placeholder="URL..."/>
-
             <input type="submit" value="Download" />
         </form>
     </div>

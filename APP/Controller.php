@@ -24,15 +24,7 @@ class Controller {
 
     public function download($url){
 
-        $media = new Media($url);
-        if($media->download()){
-            //$media->play();
 
-        }else{
-            $media->deleteFiles();
-            $media->showErrors();
-            $media->showMessages();
-        }
     }
 
     /**
