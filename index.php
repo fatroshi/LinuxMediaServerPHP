@@ -70,6 +70,19 @@ include_once("APP/Controller.php")
 
         });
 
+
+        // Bind to the submit event of our form
+        $("img").click(function(event){
+
+            // Let's select img tags
+            var input = $(this).attr("alt");
+
+                $.post( "ajax/commands.php", { action: "play", filePath: input } );
+
+            alert(input);
+
+        });
+
     });
 </script>
 
@@ -79,6 +92,7 @@ include_once("APP/Controller.php")
         <form id="download">
             <div class="form-group">
                 <input id="url" name="url" type="text" value="" class="form-control" placeholder="URL..."/>
+                <input id="action" name="action" type="hidden" value="download" />
             </div>
             <input type="submit" value="Download" class="btn btn-default"/>
         </form>

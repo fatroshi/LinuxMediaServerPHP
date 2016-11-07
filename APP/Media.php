@@ -14,8 +14,10 @@ class Media
     private $realFileName;
     private $fileName;
     private $filePath;
-    private $cmdResult;
-    private $cmdOutput;
+    private $cmdResultVideo;
+    private $cmdOutputVideo;
+    private $cmdResultImg;
+    private $cmdOutputImg;
     private $message;
 
     function __construct() {
@@ -64,9 +66,7 @@ class Media
     }
 
     public function getLastCreatedFile(){
-
-        $command = "find {$this->downloadDirectory}/*.mp4 -ctime -5 | tail -1";
-
+        $command = "ls -Art {$this->downloadDirectory}/*.mp4 | tail -n 1";
         exec($command, $output, $ret);
         if($ret ==0){
             return $output[0];
@@ -81,7 +81,7 @@ class Media
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
 
-            echo $data = $this->getLastCreatedFile();
+            $data = $output[count($output) - 2];                    // Get the real file name, downloaded by youtube-dl
             $filePath = substr($data, strpos($data, "/"));
 
             // Set file name
@@ -93,8 +93,8 @@ class Media
             return true;
         }else{
             // Fail
-            $this->cmdOutput = $output;
-            $this->cmdResult = $ret;
+            $this->cmdOutputVideo = $output;
+            $this->cmdResultVideo = $ret;
             return false;
         }
 
@@ -143,8 +143,8 @@ class Media
             return true;
         }else{
             // Fail
-            $this->cmdOutput = $output;
-            $this->cmdResult = $ret;
+            $this->cmdOutputImg = $output;
+            $this->cmdResultImg = $ret;
             return false;
         }
 
@@ -154,20 +154,26 @@ class Media
      * Shows errors from the terminal
      */
     public function showErrors(){
-        echo "<b>CMD response:</b>";
-        echo "<pre>";
-        echo var_dump($this->cmdOutput);
-        echo "</pre>";
-        echo "<pre>";
-        echo var_dump($this->cmdResult);
-        echo "</pre>";
+
+        if($this->cmdResultVideo !=0){
+            echo "<b>CMD response video:</b>";
+            echo "<pre>";
+            echo var_dump($this->cmdOutputVideo);
+            echo "</pre>";
+        }
+        if($this->cmdResultImg !=0) {
+            echo "<b>CMD response thumbnail:</b>";
+            echo "<pre>";
+            echo var_dump($this->cmdOutputImg);
+            echo "</pre>";
+        }
     }
 
     /**
      * @return bool true if possible to play the video
      */
-    public function play(){
-        $play = "/usr/local/bin/mplayer " . $this->filePath ;
+    public function play($filePath){
+        $play = "/usr/local/bin/mplayer " . $filePath ;
         exec($play, $output, $ret);
 
         if($ret ==0){

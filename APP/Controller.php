@@ -9,7 +9,7 @@
 
 
 include_once ("Database.php");
-include_once ("Media.php");
+include_once("Media.php");
 
 class Controller {
 
@@ -61,9 +61,13 @@ class Controller {
                 $fileName = $row['FileName'];
                 $thumbnail = $row['Thumbnail'];
 
+
+                // do a ajax function for playing the video
+                // alt is the path to the file
+
                 $output .="<div class=\"col-sm-6 col-md-4\">";
                     $output .="<div class=\"thumbnail\">";
-                    $output .="<img src=\"{$thumbnail}\" alt=\"...\">";
+                    $output .="<img src=\"{$thumbnail}\" alt=\"{$filePath}\">";
                         $output .="<div class=\"caption\">";
                             $output .="<h3>{$fileName}</h3>";
                             $output .="<p>{$status}</p>";
@@ -73,7 +77,7 @@ class Controller {
                 $output .="</div>";
             }
         } else {
-            echo "0 results";
+            //return "No records found";
         }
 
 
