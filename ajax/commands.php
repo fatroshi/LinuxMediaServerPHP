@@ -37,7 +37,7 @@ if(isset($_POST['action']) && $_POST['action'] == "download") {
     }
 }elseif (isset($_POST['action']) && $_POST['action'] == "play"){
     echo "Play the shit:" . $_POST['filePath'];
-    $controller->getMedia()->play($_POST['filePath']);
+    $controller->play($_POST['filePath']);
 }else{
     echo "<div class=\"alert alert-danger\" role=\"alert\">Please type in an URL...</div>";
 }

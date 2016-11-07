@@ -10,15 +10,18 @@
 
 include_once ("Database.php");
 include_once("Media.php");
+include_once ("Player.php");
 
 class Controller {
 
     private $database;
     private $media;
+    private $player;
 
     function __construct() {
         $this->database = new Database();                                       // Connect to the database
         $this->media = new Media();
+        $this->player = new Player();
     }
 
     public function download($url){
@@ -65,9 +68,7 @@ class Controller {
                     $output .="<div class=\"thumbnail\">";
                     $output .="<img src=\"{$thumbnail}\" alt=\"{$filePath}\">";
                         $output .="<div class=\"caption\">";
-                            $output .="<h3>{$fileName}</h3>";
-                            $output .="<p>{$status}</p>";
-                            $output .="<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Button</a> <a href=\"#\" class=\"btn btn-default\" role=\"button\">Button</a></p>";
+                            $output .="<h5>{$fileName}</h5>";
                         $output .="</div>";
                     $output .="</div>";
                 $output .="</div>";
@@ -78,6 +79,29 @@ class Controller {
 
         return $output;
     }
+
+
+    public function play($pathToFile){
+        $this->player->play($pathToFile);
+    }
+
+    /**
+     * @return Player
+     */
+    public function getPlayer()
+    {
+        return $this->player;
+    }
+
+    /**
+     * @param Player $player
+     */
+    public function setPlayer($player)
+    {
+        $this->player = $player;
+    }
+
+
 
 
     /**

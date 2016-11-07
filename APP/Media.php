@@ -157,23 +157,6 @@ class Media
         }
     }
 
-    /**
-     * @return bool true if possible to play the video
-     */
-    public function play($filePath){
-        $play = "/usr/local/bin/mplayer \"{$filePath}\"";
-        exec($play, $output, $ret);
-
-        if($ret ==0){
-            // Success
-            return true;
-        }else{
-            // Fail
-            $this->cmdOutput = $output;
-            $this->cmdResult = $ret;
-            return false;
-        }
-    }
 
     public function getThumbnailPath(){
         return "downloads/" . $this->fileName . ".png";

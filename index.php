@@ -76,10 +76,7 @@ include_once("APP/Controller.php")
 
             // Let's select img tags
             var input = $(this).attr("alt");
-
                 $.post( "ajax/commands.php", { action: "play", filePath: input } );
-
-            alert(input);
 
         });
 
