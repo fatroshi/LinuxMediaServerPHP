@@ -59,13 +59,29 @@ class Media
      *
      */
 
+    private function dump($arr){
+        echo "<pre>" . var_dump($arr) . "</pre>";
+    }
+
+    public function getLastCreatedFile(){
+
+        $command = "find {$this->downloadDirectory} -ctime -5 | tail -1";
+
+        exec($command, $output, $ret);
+        if($ret ==0){
+            return $output[0];
+        }else{
+            // Fail
+            return false;
+        }
+    }
 
     private function downloadYoutubeVideo(){
         $youtubeDL = "/usr/local/bin/youtube-dl -o \"$this->downloadDirectory/%(title)s.%(ext)s\" " . $this->url;
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
 
-            $data = $output[count($output) - 2];
+            $data = $this->getLastCreatedFile();
             $filePath = substr($data, strpos($data, "/"));
 
             // Set file name

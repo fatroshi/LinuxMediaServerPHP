@@ -19,7 +19,7 @@ if(isset($_POST['url']) && $_POST['url'] != "") {
     if($media->download()){
         echo "<div class=\"alert alert-success\" role=\"alert\">Download completed</div>";
         $controller->saveItem();
-
+        echo $controller->getAllItems();
     }else{
         echo "<div class=\"alert alert-danger\" role=\"alert\">";
             $media->deleteFiles();
