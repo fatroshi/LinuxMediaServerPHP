@@ -65,7 +65,7 @@ class Media
 
     public function getLastCreatedFile(){
 
-        $command = "find {$this->downloadDirectory} -ctime -5 | tail -1";
+        $command = "find {$this->downloadDirectory}/*.mp4 -ctime -5 | tail -1";
 
         exec($command, $output, $ret);
         if($ret ==0){
@@ -81,7 +81,7 @@ class Media
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
 
-            $data = $this->getLastCreatedFile();
+            echo $data = $this->getLastCreatedFile();
             $filePath = substr($data, strpos($data, "/"));
 
             // Set file name

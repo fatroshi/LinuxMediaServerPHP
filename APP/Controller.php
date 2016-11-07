@@ -36,9 +36,10 @@ class Controller {
 
         $conn = $this->database->getConnection();
         if($conn->query($sql) === true){
-            echo "New record created successfully";
+            return true;
         }else{
             echo "Error: " . $sql . "<br>" . $conn->error;
+            return false;
         }
 
     }
