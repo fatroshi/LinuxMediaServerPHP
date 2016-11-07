@@ -61,10 +61,6 @@ class Controller {
                 $fileName = $row['FileName'];
                 $thumbnail = $row['Thumbnail'];
 
-
-                // do a ajax function for playing the video
-                // alt is the path to the file
-
                 $output .="<div class=\"col-sm-6 col-md-4\">";
                     $output .="<div class=\"thumbnail\">";
                     $output .="<img src=\"{$thumbnail}\" alt=\"{$filePath}\">";
@@ -79,10 +75,6 @@ class Controller {
         } else {
             //return "No records found";
         }
-
-
-
-
 
         return $output;
     }

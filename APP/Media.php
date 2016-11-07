@@ -48,18 +48,6 @@ class Media
         }
     }
 
-    /*
-     * FIX!!!!
-     * Use find . -ctime -5 | tail -1 find the newest file
-     * the set path, realfilename and clean up for thumnnail
-     *
-     * So a new function needs to be created and called in the function download
-     *
-     * public function setFileAttributes(){
-     *  ...
-     *
-     *
-     */
 
     private function dump($arr){
         echo "<pre>" . var_dump($arr) . "</pre>";
@@ -173,7 +161,7 @@ class Media
      * @return bool true if possible to play the video
      */
     public function play($filePath){
-        $play = "/usr/local/bin/mplayer " . $filePath ;
+        $play = "/usr/local/bin/mplayer \"{$filePath}\"";
         exec($play, $output, $ret);
 
         if($ret ==0){
