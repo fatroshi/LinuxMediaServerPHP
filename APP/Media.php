@@ -46,12 +46,26 @@ class Media
         }
     }
 
+    /*
+     * FIX!!!!
+     * Use find . -ctime -5 | tail -1 find the newest file
+     * the set path, realfilename and clean up for thumnnail
+     *
+     * So a new function needs to be created and called in the function download
+     *
+     * public function setFileAttributes(){
+     *  ...
+     *
+     *
+     */
+
+
     private function downloadYoutubeVideo(){
-        $youtubeDL = "/usr/local/bin/youtube-dl -o '{$this->downloadDirectory}/%(title)s.%(ext)s' '{$this->url}' ";
+        $youtubeDL = "/usr/local/bin/youtube-dl -o \"$this->downloadDirectory/%(title)s.%(ext)s\" " . $this->url;
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
-            // Get file path
-            $data = $output[3];
+
+            $data = $output[count($output) - 2];
             $filePath = substr($data, strpos($data, "/"));
 
             // Set file name
@@ -78,17 +92,16 @@ class Media
      */
     public function download(){
         if($this->isYouTubeLink()){
-            $this->message['Start'] = "Staring download...";
+            $this->message['Start'] = "Starting to download...";
             $this->message['Type'] = "Video from youtube.";
             if($this->downloadYoutubeVideo()){
                 $this->message['Download_Status'] = "Youtube video downloaded: " . $this->realFileName;
                 if($this->createThumbnail()){
                     $this->message['Thumbnail_Status'] = "Thumbnail created";
                     $this->message['Status'] = "Success";
-
                     return true;
                 }else{
-                    $this->message['Status'] = "Could not create thumbnail image";
+                    $this->message['Status'] = "Could not create thumbnail image:";
                     return false;
                 }
             }else{
@@ -127,10 +140,10 @@ class Media
     public function showErrors(){
         echo "<b>CMD response:</b>";
         echo "<pre>";
-        echo var_export($this->cmdOutput);
+        echo var_dump($this->cmdOutput);
         echo "</pre>";
         echo "<pre>";
-        echo var_export($this->cmdResult);
+        echo var_dump($this->cmdResult);
         echo "</pre>";
     }
 
@@ -154,6 +167,13 @@ class Media
 
     public function getThumbnailPath(){
         return "downloads/" . $this->fileName . ".png";
+    }
+
+    public function deleteVideo(){
+        $video = "dowloads/" . $this->fileName;
+        if(file_exists($video)){
+            unlink($video);
+        }
     }
 
 
