@@ -5,6 +5,12 @@
  * User: Elise
  * Date: 2016-11-07
  * Time: 19:41
+ *
+ * New to install "pidof" --> sudo apt-get pidof
+ * kill -STOP pid --> Pause
+ * kill -cont pid --> Resume
+ *
+ * Better way --> kill -STOP $(pidof mplayer)
  */
 class Player
 {
