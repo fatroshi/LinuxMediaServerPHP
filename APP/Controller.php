@@ -93,13 +93,6 @@ class Controller {
         return $this->player;
     }
 
-    public function pause(){
-        $this->player->pause();
-    }
-
-    public function resume(){
-        $this->player->resume();
-    }
 
     /**
      * @param Player $player

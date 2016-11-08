@@ -33,14 +33,8 @@ class Player
     {
 
         //Path to file
-        $this->directory = "/Applications/MAMP/htdocs/cinema/downloads";
-        $this->controlFile = "{$this->directory}/mplayer-control";
-
-        //User name
-        $this->username = "Elise";
-
-        // Set the user
-        chown( $this->controlFile, $this->username);
+        $this->directory = "/Applications/MAMP/htdocs/cinema/downloads";                // Need the absolute path for apache
+        $this->controlFile = "{$this->directory}/mplayer";
 
         // Create control file if it doesn't exist
         $this->createControlFile();
@@ -49,14 +43,11 @@ class Player
 
 
     private function createControlFile(){
-
-
-
         if(!file_exists($this->controlFile)){
-            $this->sendCommand("mkfifo {$this->controlFile} && exec 3<> {$this->controlFile}");
-            $this->play() or die("Failure");
-            $this->showErrors();
-            echo "file does not exist";
+            $mode=0666;
+            // create the pipe
+            umask(0);
+            posix_mkfifo($this->controlFile,$mode);
         }
     }
 
@@ -75,9 +66,14 @@ class Player
      * @return bool true if possible to play the video
      */
     public function start($filePath){
-        $play = "/usr/local/bin/mplayer \"{$filePath}\"";
+        $play = "/usr/local/bin/mplayer -slave -input file={$this->controlFile} \"{$filePath}\"";
+
+        echo $play;
         if(!$this->sendCommand($play)){
             $this->showErrors();
+            return false;
+        }else{
+            return true;
         }
     }
 
@@ -102,8 +98,13 @@ class Player
         if(!$this->sendCommand($pause)){
             $this->showErrors();
         }
+
     }
 
+
+    public function getControlFile(){
+        return $this->controlFile;
+    }
 
     public function whoAmI(){
         $processUser = posix_getpwuid(posix_geteuid());

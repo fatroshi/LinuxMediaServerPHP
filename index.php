@@ -1,11 +1,11 @@
 
 <?php
 
-include_once("APP/Controller.php")
-
+include_once("APP/Controller.php");
 ?>
 <?php include_once("layout/header/header.php") ?>
 <?php include_once("layout/navigation/navigation.php") ?>
+
 
 <script>
     $( document ).ready(function() {
@@ -103,12 +103,17 @@ include_once("APP/Controller.php")
 
     $controller = new Controller();
     //$controller->saveItem();
+    $player = $controller->getPlayer();
+
+
+
 
 
 
 if(isset($_GET['pause'])){
-    $controller->pause();
     echo "<br> Pause";
+
+    $player->pause();
 }
 
 if(isset($_GET['resume'])){
