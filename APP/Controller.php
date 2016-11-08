@@ -81,8 +81,8 @@ class Controller {
     }
 
 
-    public function play($pathToFile){
-        $this->player->play($pathToFile);
+    public function start($pathToFile){
+        $this->player->start($pathToFile);
     }
 
     /**

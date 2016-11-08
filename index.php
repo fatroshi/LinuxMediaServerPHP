@@ -103,14 +103,12 @@ include_once("APP/Controller.php")
 
     $controller = new Controller();
     //$controller->saveItem();
-    echo $controller->getAllItems();
+
 
 
 if(isset($_GET['pause'])){
-
-    $controller->getPlayer()->whoAmI();
     $controller->pause();
-    echo "Pause";
+    echo "<br> Pause";
 }
 
 if(isset($_GET['resume'])){
@@ -120,6 +118,7 @@ if(isset($_GET['resume'])){
 
 }
 
+echo $controller->getAllItems();
 
 ?>
 
