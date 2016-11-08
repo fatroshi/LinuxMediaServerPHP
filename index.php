@@ -79,6 +79,13 @@ include_once("APP/Controller.php");
                 $.post( "ajax/commands.php", { action: "play", filePath: input } );
         });
 
+        $("video").click(function(event){
+
+            // Let's select img tags
+            var input = $(this).attr("id");
+            $.post( "ajax/commands.php", { action: "play", filePath: input } );
+        });
+
     });
 </script>
 

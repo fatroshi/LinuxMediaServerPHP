@@ -72,6 +72,13 @@ class Controller {
                         $output .="</div>";
                     $output .="</div>";
                 $output .="</div>";
+
+
+                $output .= "<video id='{$filePath}' width='320' height='240' controls>";
+                    $output .= "<source src='downloads/{$fileName}' type='video/mp4' poster='{$thumbnail}' >";
+                $output .= "</video>";
+
+
             }
         } else {
             //return "No records found";
