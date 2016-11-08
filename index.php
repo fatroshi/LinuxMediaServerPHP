@@ -77,7 +77,6 @@ include_once("APP/Controller.php")
             // Let's select img tags
             var input = $(this).attr("alt");
                 $.post( "ajax/commands.php", { action: "play", filePath: input } );
-
         });
 
     });
@@ -100,9 +99,28 @@ include_once("APP/Controller.php")
     </div>
 
 <?php
+
+
     $controller = new Controller();
     //$controller->saveItem();
     echo $controller->getAllItems();
+
+
+if(isset($_GET['pause'])){
+
+    $controller->getPlayer()->whoAmI();
+    $controller->pause();
+    echo "Pause";
+}
+
+if(isset($_GET['resume'])){
+
+    $controller->resume();
+    echo "resume";
+
+}
+
+
 ?>
 
     <!-- /.container -->
