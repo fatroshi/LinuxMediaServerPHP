@@ -10,6 +10,7 @@ include_once ("../App/Controller.php");
 
 $controller = new Controller();
 
+
 if(isset($_POST['action']) && $_POST['action'] == "download") {
 
     if (isset($_POST['url']) && $_POST['url'] != "") {
@@ -35,8 +36,10 @@ if(isset($_POST['action']) && $_POST['action'] == "download") {
     }
 }elseif (isset($_POST['action']) && $_POST['action'] == "play"){
     // Play
+    $filePath = $_POST['filePath'];
     $player = $controller->getPlayer();
-    $player->start($_POST['filePath']);
+    $player->start($filePath);
+
 }else{
     echo "<div class=\"alert alert-danger\" role=\"alert\">Please type in an URL...</div>";
 }

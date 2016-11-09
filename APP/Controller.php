@@ -47,6 +47,18 @@ class Controller {
 
     }
 
+    public function updateItem($query){
+        $sql = "UPDATE Items SET {$query}";
+        $conn = $this->database->getConnection();
+
+        if($conn->query($sql) === true){
+            return true;
+        }else{
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            return false;
+        }
+    }
+
     public function getAllItems(){
 
         $output = "";
@@ -66,7 +78,7 @@ class Controller {
 
                 $output .="<div class=\"col-sm-6 col-md-5\">";
                     $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                        $output .= "<video  id='{$filePath}' width='435' height='250' poster='{$thumbnail}' controls>";
+                        $output .= "<video  id='{$filePath}' width='430' height='245' poster='{$thumbnail}' controls>";
                         $output .= "<source src='downloads/{$fileName}' type='video/mp4'  >";
                         $output .= "</video>";
                     $output .="</div>";

@@ -108,6 +108,21 @@ include_once("APP/Controller.php");
 <?php
 
 
+
+    $array = array(
+        "media" => array(
+            "download" => "url"
+        ),
+        "player" => array(
+            "startPlaying" => "videoPath",
+            "toggle"       => true,
+        )
+    );
+
+    echo "<pre>";
+    var_dump($array);
+    echo "</pre>";
+
     $controller = new Controller();
     //$controller->saveItem();
     $player = $controller->getPlayer();
