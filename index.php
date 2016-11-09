@@ -109,7 +109,7 @@ include_once("APP/Controller.php");
 
 
 
-    $array = array(
+    $post = array(
         "media" => array(
             "download" => "url"
         ),
@@ -120,8 +120,15 @@ include_once("APP/Controller.php");
     );
 
     echo "<pre>";
-    var_dump($array);
+    var_dump($post);
     echo "</pre>";
+
+
+    include_once ("App/TaskHandler.php");
+
+    $taskHandler = new TaskHandler();
+    $taskHandler->setPost($post);
+    $taskHandler->performTask();
 
     $controller = new Controller();
     //$controller->saveItem();

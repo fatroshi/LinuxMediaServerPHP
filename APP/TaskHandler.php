@@ -14,39 +14,74 @@ class TaskHandler
 
 
 
-    public function setPost(){
-        $this->post;
+    public function setPost($post){
+        $this->post = $post;
     }
 
-    public function taskHandler($task){
 
+    /**
+     * Check the $_Post and assign new tasks to the list (OBS!!! Not added to the list yet!!!!)
+     */
+    public function performTask(){
+        foreach ($this->post as $action => $actionName){
+            foreach ($actionName as $command => $value){
+                echo "Action: " . $action . " command: " . $command . " value: " . $value . " </br>";
 
-    }
+                switch ($action){
+                    case "media":
+                        $this->media($command,$value);
+                        break;
+                    case "player":
+                        $this->player($command, $value);
+                        break;
+                    default:
+                        // Handle errors
+                        break;
+                }
 
-    public function media($value){
-        switch ($value){
-            case "download";
-                // Get post url;
-                $url = $this->getTask("url");
-
-                break;
-        }
-    }
-
-    public function getTask(){
-        foreach ($_POST as $key => $value) {
-            if($key == "url"){
-                return $value;
-                break;
             }
         }
     }
 
-    public function checkPost(){
-        foreach ($_POST as $key => $value) {
-            echo $key . " " . $value;
+
+    /**
+     * Handles all Media methods
+     *
+     * @param $command the command name
+     * @param $value value of the command
+     */
+    public function media($command, $value){
+        switch ($command){
+            case "download";
+                // Get post url;
+                //Download the file comma
+                break;
         }
     }
+
+    /**
+     * Handles all Player methods
+     *
+     * @param $command the command name
+     * @param $value value of the command
+     */
+    public function player($command, $value){
+        switch ($command){
+            case "play";
+                // Start mplayer and play video
+                break;
+            case "resume":
+                // Resume
+                break;
+            case "pause":
+                // Pause video
+                break;
+            default:
+                break;
+
+        }
+    }
+
 
     public function addTask(){
 
