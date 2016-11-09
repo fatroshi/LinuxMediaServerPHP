@@ -6,13 +6,25 @@
  * Date: 2016-11-09
  * Time: 11:19
  */
+
+include_once ("Media.php");
+include_once ("Player.php");
+
 class TaskHandler
 {
 
+    private $database;
+    private $media;
+    private $player;
     private $post;
     private $tasks;
 
 
+    public function TaskHandler(){
+        $this->database = new Database();                                       // Connect to the database
+        $this->media = new Media();
+        $this->player = new Player();
+    }
 
     public function setPost($post){
         $this->post = $post;
@@ -22,7 +34,7 @@ class TaskHandler
     /**
      * Check the $_Post and assign new tasks to the list (OBS!!! Not added to the list yet!!!!)
      */
-    public function performTask(){
+    public function assignTask(){
         foreach ($this->post as $action => $actionName){
             foreach ($actionName as $command => $value){
                 echo "Action: " . $action . " command: " . $command . " value: " . $value . " </br>";
@@ -43,6 +55,19 @@ class TaskHandler
         }
     }
 
+    private function downloadMediaFile($url){
+        // Get post url;
+        $this->media->setUrl($url);
+        if($this->media->download()){
+            $this->database->saveMediaFile($this->media);
+        }else {
+            echo "<div class=\"alert alert-danger\" role=\"alert\">";
+            $this->media->deleteFiles();
+            $this->media->showErrors();
+            $this->media->showMessages();
+            echo "</div>";
+        }
+    }
 
     /**
      * Handles all Media methods
@@ -53,8 +78,7 @@ class TaskHandler
     public function media($command, $value){
         switch ($command){
             case "download";
-                // Get post url;
-                //Download the file comma
+                $this->downloadMediaFile($value);
                 break;
         }
     }

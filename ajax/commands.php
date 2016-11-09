@@ -6,10 +6,15 @@
  * Time: 21:36
  */
 
+
+include_once ("../App/TaskHandler.php");
+
+$handler = new TaskHandler();
+$handler->setPost($_POST);
+
+/*
 include_once ("../App/Controller.php");
-
 $controller = new Controller();
-
 
 if(isset($_POST['action']) && $_POST['action'] == "download") {
 
@@ -44,5 +49,5 @@ if(isset($_POST['action']) && $_POST['action'] == "download") {
     echo "<div class=\"alert alert-danger\" role=\"alert\">Please type in an URL...</div>";
 }
 
-
+*/
 

@@ -56,6 +56,27 @@ class Database
     public function getConnection(){
         return $this->connection;
     }
+
+
+    public function saveMediaFile($mediaObject){
+        $type = "mp4";
+        $path = $mediaObject->getFilePath();
+        $status = 0;
+        $name = $mediaObject->getRealFileName();
+        $thumbnail = $mediaObject->getThumbnailPath();
+
+        $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}')";
+
+        $conn = $this->database->getConnection();
+        if($conn->query($sql) === true){
+            return true;
+        }else{
+            echo "Error: " . $sql . "<br>" . $conn->error;
+            return false;
+        }
+
+    }
+
 }
 
 ?>

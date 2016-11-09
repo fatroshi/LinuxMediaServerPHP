@@ -28,24 +28,6 @@ class Controller {
         $this->media->setUrl($url);
     }
 
-    public function saveItem(){
-        $type = "mp4";
-        $path = $this->media->getFilePath();
-        $status = 0;
-        $name = $this->media->getRealFileName();
-        $thumbnail = $this->media->getThumbnailPath();
-
-        $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}')";
-
-        $conn = $this->database->getConnection();
-        if($conn->query($sql) === true){
-            return true;
-        }else{
-            echo "Error: " . $sql . "<br>" . $conn->error;
-            return false;
-        }
-
-    }
 
     public function updateItem($query){
         $sql = "UPDATE Items SET {$query}";
