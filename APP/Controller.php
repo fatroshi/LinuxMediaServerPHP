@@ -64,19 +64,13 @@ class Controller {
                 $fileName = $row['FileName'];
                 $thumbnail = $row['Thumbnail'];
 
-                $output .="<div class=\"col-sm-6 col-md-4\">";
-                    $output .="<div class=\"thumbnail\">";
-                    $output .="<img src=\"{$thumbnail}\" alt=\"{$filePath}\">";
-                        $output .="<div class=\"caption\">";
-                            $output .="<h5>{$fileName}</h5>";
-                        $output .="</div>";
+                $output .="<div class=\"col-sm-6 col-md-5\">";
+                    $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
+                        $output .= "<video  id='{$filePath}' width='435' height='250' poster='{$thumbnail}' controls>";
+                        $output .= "<source src='downloads/{$fileName}' type='video/mp4'  >";
+                        $output .= "</video>";
                     $output .="</div>";
                 $output .="</div>";
-
-
-                $output .= "<video id='{$filePath}' width='320' height='240' controls>";
-                    $output .= "<source src='downloads/{$fileName}' type='video/mp4' poster='{$thumbnail}' >";
-                $output .= "</video>";
 
 
             }
