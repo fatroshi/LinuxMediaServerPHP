@@ -65,10 +65,8 @@ class Player
     /**
      * @return bool true if possible to play the video
      */
-    public function start($filePath){
+    public function play($filePath){
         $play = "/usr/local/bin/mplayer -slave -input file={$this->controlFile} \"{$filePath}\"";
-
-        echo $play;
         if(!$this->sendCommand($play)){
             $this->showErrors();
             return false;
@@ -86,7 +84,7 @@ class Player
         echo "</pre>";
     }
 
-    public function play(){
+    public function resume(){
         echo $play = "echo \"play\" > {$this->controlFile}";
         if(!$this->sendCommand($play)){
             $this->showErrors();
@@ -101,6 +99,13 @@ class Player
 
     }
 
+    public function quit(){
+        echo $pause = "echo \"quit\" > {$this->controlFile}";
+        if(!$this->sendCommand($pause)){
+            $this->showErrors();
+        }
+
+    }
 
     public function getControlFile(){
         return $this->controlFile;

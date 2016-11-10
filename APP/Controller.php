@@ -8,9 +8,9 @@
  */
 
 
-//include_once ("Database.php");
-//include_once("Media.php");
-//include_once ("Player.php");
+include_once ("Database.php");
+include_once("Media.php");
+include_once ("Player.php");
 
 class Controller {
 
@@ -20,12 +20,6 @@ class Controller {
 
     function __construct() {
         $this->database = new Database();                                       // Connect to the database
-        $this->media = new Media();
-        $this->player = new Player();
-    }
-
-    public function download($url){
-        $this->media->setUrl($url);
     }
 
 
@@ -74,31 +68,6 @@ class Controller {
 
         return $output;
     }
-
-
-    public function start($pathToFile){
-        $this->player->start($pathToFile);
-    }
-
-    /**
-     * @return Player
-     */
-    public function getPlayer()
-    {
-        return $this->player;
-    }
-
-
-    /**
-     * @param Player $player
-     */
-    public function setPlayer($player)
-    {
-        $this->player = $player;
-    }
-
-
-
 
     /**
      * Get logged in user
@@ -155,37 +124,7 @@ class Controller {
         return $this->user->login($username,$password);
     }
 
-    /**
-     * @return Database
-     */
-    public function getDatabase()
-    {
-        return $this->database;
-    }
 
-    /**
-     * @param Database $database
-     */
-    public function setDatabase($database)
-    {
-        $this->database = $database;
-    }
-
-    /**
-     * @return Media
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
-
-    /**
-     * @param Media $media
-     */
-    public function setMedia($media)
-    {
-        $this->media = $media;
-    }
 
 
 }

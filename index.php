@@ -76,14 +76,28 @@ include_once("APP/Controller.php");
 
             // Let's select img tags
             var input = $(this).attr("alt");
-                $.post( "ajax/commands.php", { action: "play", filePath: input } );
+            request = $.post( "ajax/commands.php", { action: "play", filePath: input } );
+
+            // Callback handler that will be called on success
+            request.done(function (response, textStatus, jqXHR){
+                // Log a message to the console
+                console.log("Hooray, it worked!");
+                $(".result").html(response)
+            });
         });
 
         $("video").click(function(event){
 
             // Let's select img tags
             var input = $(this).attr("id");
-            $.post( "ajax/commands.php", { action: "play", filePath: input } );
+            request = $.post( "ajax/commands.php", { task: "player", command: "play", value: input });
+
+            // Callback handler that will be called on success
+            request.done(function (response, textStatus, jqXHR){
+                // Log a message to the console
+                console.log("Hooray, it worked!");
+                $(".result").html(response)
+            });
         });
 
     });
@@ -95,60 +109,20 @@ include_once("APP/Controller.php");
         <form id="download">
             <div class="form-group">
                 <input id="url" name="url" type="text" value="" class="form-control" placeholder="URL..."/>
-                <input id="action" name="action" type="hidden" value="download" />
+                <input id="media" name="media" type="hidden" value="download" />
             </div>
             <input type="submit" value="Download" class="btn btn-default"/>
         </form>
     </div>
 
-    <div class="result">
+<hr>
+<div class="result">
 
-    </div>
+</div>
 
 <?php
 
-
-
-    $post = array(
-        "media" => array(
-            "download" => "url"
-        ),
-        "player" => array(
-            "startPlaying"  => "videoPath",
-            "resume"        => true,
-            "pause"         => true,
-            "quit"          => true,
-        )
-    );
-
-    echo "<pre>";
-    var_dump($post);
-    echo "</pre>";
-
-
-    include_once ("App/TaskHandler.php");
-
-    $taskHandler = new TaskHandler();
-    $taskHandler->setPost($post);
-    $taskHandler->assignTask();
-
     $controller = new Controller();
-    //$controller->saveItem();
-    $player = $controller->getPlayer();
-
-
-if(isset($_GET['pause'])){
-    echo "<br> Pause";
-
-    $player->pause();
-}
-
-if(isset($_GET['resume'])){
-
-    $controller->resume();
-    echo "resume";
-
-}
 
 echo $controller->getAllItems();
 

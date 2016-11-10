@@ -36,24 +36,28 @@ class TaskHandler
      * Check the $_Post and assign new tasks to the list (OBS!!! Not added to the list yet!!!!)
      */
     public function assignTask(){
-        foreach ($this->post as $action => $actionName){
-            foreach ($actionName as $command => $value){
-                echo "Action: " . $action . " command: " . $command . " value: " . $value . " </br>";
 
-                switch ($action){
-                    case "media":
-                        $this->media($command,$value);
-                        break;
-                    case "player":
-                        $this->player($command, $value);
-                        break;
-                    default:
-                        // Handle errors
-                        break;
-                }
+        if(isset($this->post['task'])){
 
+            $task       = $this->post['task'];
+            $command    = $this->post['command'];
+            $value      = $this->post['value'];
+
+            switch ($task){
+                case "media":
+                    $this->media($command,$value);
+                    break;
+                case "player":
+                    $this->player($command, $value);
+                    break;
+                default:
+                    // Handle errors
+                    break;
             }
+
         }
+
+
     }
 
     private function downloadMediaFile($url){
@@ -93,7 +97,7 @@ class TaskHandler
     public function player($command, $value){
         switch ($command){
             case "play";
-                // Start mplayer and play video
+                $this->player->play($value);
                 break;
             case "resume":
                 // Resume

@@ -9,7 +9,19 @@
 
 include_once ("../App/TaskHandler.php");
 
+
+if(isset($_POST)){
+/*    echo "<pre>";
+        var_dump($_POST);
+    echo "</pre>";*/
+}
+
 $handler = new TaskHandler();
+if(isset($_POST)) {
+    $handler->setPost($_POST);
+    $handler->assignTask();
+}
+
 //$handler->setPost($_POST);
 
 /*
