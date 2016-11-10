@@ -62,6 +62,8 @@ class TaskHandler
         $this->media->setUrl($url);
         if($this->media->download()){
             $this->database->saveMediaFile($this->media);
+            $id = $this->database->getLastId();
+            echo $this->database->getItemById($id);
         }else {
             echo "<div class=\"alert alert-danger\" role=\"alert\">";
             $this->media->deleteFiles();
@@ -121,7 +123,6 @@ class TaskHandler
         }
     }
 
-
     public function addTask(){
 
     }
@@ -129,5 +130,4 @@ class TaskHandler
     public function taskExists(){
 
     }
-
 }

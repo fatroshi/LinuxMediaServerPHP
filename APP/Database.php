@@ -70,14 +70,50 @@ class Database
 
         $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}')";
 
-        $conn = $this->database->getConnection();
-        if($conn->query($sql) === true){
+
+        if($this->connection->query($sql) === true){
             return true;
         }else{
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $sql . "<br>" . $this->connection->error;
             return false;
         }
 
+    }
+
+    public function getItemById($id){
+
+        $output = "";
+        $sql = "SELECT * FROM Items WHERE id={$id}";
+
+        $conn = $this->connection;
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+
+                $filePath = $row['Path'];
+                $status = $row['Status'];
+                $fileName = $row['FileName'];
+                $thumbnail = $row['Thumbnail'];
+
+                $output .="<div class=\"col-sm-6 col-md-5\">";
+                $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
+                $output .= "<video  id='{$filePath}' width='430' height='245' poster='{$thumbnail}' controls>";
+                $output .= "<source src='downloads/{$fileName}' type='video/mp4'  >";
+                $output .= "</video>";
+                $output .="</div>";
+                $output .="</div>";
+            }
+        } else {
+            //return "No records found";
+        }
+
+        return $output;
+    }
+
+    public function getLastId(){
+        return $this->connection->insert_id;
     }
 
 }
