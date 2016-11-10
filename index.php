@@ -100,6 +100,19 @@ include_once("APP/Controller.php");
             });
         });
 
+        $("#quit").click(function(event){
+            request = $.post( "ajax/commands.php", { task: "player", command: "quit", value: "" });
+        });
+
+
+        $("#pause").click(function(event){
+            request = $.post( "ajax/commands.php", { task: "player", command: "pause", value: "" });
+        });
+
+        $("#resume").click(function(event){
+            request = $.post( "ajax/commands.php", { task: "player", command: "resume", value: "" });
+        });
+
     });
 </script>
 
@@ -118,6 +131,12 @@ include_once("APP/Controller.php");
 <hr>
 <div class="result">
 
+</div>
+
+<div class="well playerControl">
+    <h1  class="glyphicon glyphicon-play" id="resume"> </h1>
+    <h1 class="glyphicon glyphicon-pause" id="pause"> </h1>
+    <h1 class="glyphicon glyphicon-glyphicon glyphicon-off" id="quit"></h1>
 </div>
 
 <?php

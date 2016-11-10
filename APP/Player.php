@@ -85,7 +85,7 @@ class Player
     }
 
     public function resume(){
-        echo $play = "echo \"play\" > {$this->controlFile}";
+        echo $play = "echo \"pause\" > {$this->controlFile}";
         if(!$this->sendCommand($play)){
             $this->showErrors();
         }

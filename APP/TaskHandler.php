@@ -54,10 +54,7 @@ class TaskHandler
                     // Handle errors
                     break;
             }
-
         }
-
-
     }
 
     private function downloadMediaFile($url){
@@ -101,9 +98,15 @@ class TaskHandler
                 break;
             case "resume":
                 // Resume
+                $this->player->resume();
                 break;
             case "pause":
                 // Pause video
+                $this->player->pause();
+                break;
+            case "quit":
+                // Pause video
+                $this->player->quit();
                 break;
             default:
                 break;
