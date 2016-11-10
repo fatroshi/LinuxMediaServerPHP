@@ -13,3 +13,4 @@
   - HTML5
 
  * mplayer is used for playing the videos.
+ * youtube-dl is used for downloading the videos.
