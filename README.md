@@ -1,6 +1,6 @@
 # LinuxMediaServerPHP
 
-## You can do the following with the client:
+## You can do the following:
  - Download youtube videos
  - Play, pause etc. 
  - Create categories, subpages
@@ -10,4 +10,6 @@
   - jQuery
   - MySql
   - CSS Bootstrap
+  - HTML5
 
+ * mplayer is used for playing the videos.
