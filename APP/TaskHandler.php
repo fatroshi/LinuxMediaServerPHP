@@ -64,6 +64,8 @@ class TaskHandler
             $this->database->saveMediaFile($this->media);
             $id = $this->database->getLastId();
             echo $this->database->getItemById($id);
+            echo "<div class=\"alert alert-success\" role=\"alert\">Download completed</div>";      // Should fix this... find a better way
+
         }else {
             echo "<div class=\"alert alert-danger\" role=\"alert\">";
             $this->media->deleteFiles();
