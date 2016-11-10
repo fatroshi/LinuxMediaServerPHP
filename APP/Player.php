@@ -85,22 +85,46 @@ class Player
     }
 
     public function resume(){
-        echo $play = "echo \"pause\" > {$this->controlFile}";
+        $play = "echo \"pause\" > {$this->controlFile}";
         if(!$this->sendCommand($play)){
             $this->showErrors();
         }
     }
 
     public function pause(){
-        echo $pause = "echo \"pause\" > {$this->controlFile}";
+        $pause = "echo \"pause\" > {$this->controlFile}";
         if(!$this->sendCommand($pause)){
             $this->showErrors();
         }
 
     }
 
+    public function setVolym($volym){
+
+        $command = "";
+
+        if($volym == "up"){
+            $command = "set_property volume 80";
+        }else if($volym == "down"){
+            $command = "set_property volume 0";
+        }
+
+        $pause = "echo \"{$command}\" > {$this->controlFile}";
+        if(!$this->sendCommand($pause)){
+            $this->showErrors();
+        }
+
+    }
+
+    public function seek($value){
+        $pause = "echo seek \"{$value}\" > {$this->controlFile}";
+        if(!$this->sendCommand($pause)){
+            $this->showErrors();
+        }
+    }
+
     public function quit(){
-        echo $pause = "echo \"quit\" > {$this->controlFile}";
+        $pause = "echo \"quit\" > {$this->controlFile}";
         if(!$this->sendCommand($pause)){
             $this->showErrors();
         }

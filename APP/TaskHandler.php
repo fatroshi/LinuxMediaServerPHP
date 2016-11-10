@@ -108,6 +108,13 @@ class TaskHandler
                 // Pause video
                 $this->player->quit();
                 break;
+            case "volym":
+                // Pause video
+                $this->player->setVolym($value);
+                break;
+            case "seek":
+                //seek
+                $this->player->seek($value);
             default:
                 break;
 

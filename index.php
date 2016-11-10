@@ -104,13 +104,26 @@ include_once("APP/Controller.php");
             request = $.post( "ajax/commands.php", { task: "player", command: "quit", value: "" });
         });
 
-
         $("#pause").click(function(event){
             request = $.post( "ajax/commands.php", { task: "player", command: "pause", value: "" });
         });
 
         $("#resume").click(function(event){
             request = $.post( "ajax/commands.php", { task: "player", command: "resume", value: "" });
+        });
+
+        $("#volymUp").click(function(event){
+            request = $.post( "ajax/commands.php", { task: "player", command: "volym", value: "up" });
+        });
+
+        $("#volymDown").click(function(event){
+            request = $.post( "ajax/commands.php", { task: "player", command: "volym", value: "down" });
+        });
+
+        $(".seek").click(function(event){
+            var input = $(this).attr("id");
+            request = $.post( "ajax/commands.php", { task: "player", command: "seek", value: input });
+            //alert(input);
         });
 
     });
@@ -133,10 +146,48 @@ include_once("APP/Controller.php");
 
 </div>
 
-<div class="well playerControl">
-    <h1  class="glyphicon glyphicon-play" id="resume"> </h1>
-    <h1 class="glyphicon glyphicon-pause" id="pause"> </h1>
-    <h1 class="glyphicon glyphicon-glyphicon glyphicon-off" id="quit"></h1>
+<div class="well">
+
+    <button type="button" class="btn btn-default  " aria-label="Left Align" id="volymUp">
+        <span class="glyphicon glyphicon-volume-down" ></span>
+    </button>
+
+    <button type="button" class="btn btn-default " aria-label="Left Align" id="volymDown">
+        <span class="glyphicon glyphicon-volume-up" ></span>
+    </button>
+
+    <button type="button" class="btn btn-default " aria-label="Left Align" id="quit">
+        <span class="glyphicon glyphicon-glyphicon glyphicon-off" ></span>
+    </button>
+
+    <div class="btn btn-default " aria-label="Left Align">
+        <span class="glyphicon glyphicon-minus" ></span>
+    </div>
+
+    <button type="button" class="btn btn-default seek" aria-label="Left Align" id="-20">
+        <span class="glyphicon glyphicon-fast-backward " ></span>
+    </button>
+
+    <button type="button" class="btn btn-default seek" aria-label="Left Align" id="-5">
+        <span class="glyphicon glyphicon-step-backward " ></span>
+    </button>
+
+    <button type="button" class="btn btn-default " aria-label="Left Align" id="resume">
+        <span class="glyphicon glyphicon-play" > </span>
+    </button>
+
+    <button type="button" class="btn btn-default " aria-label="Left Align" id="pause">
+        <span class="glyphicon glyphicon-pause" > </span>
+    </button>
+
+    <button type="button" class="btn btn-default seek" aria-label="Left Align" id="5">
+        <span class="glyphicon glyphicon-step-forward " ></span>
+    </button>
+
+    <button type="button" class="btn btn-default seek" aria-label="Left Align" id="20">
+        <span class="glyphicon glyphicon-fast-forward " ></span>
+    </button>
+
 </div>
 
 <?php
