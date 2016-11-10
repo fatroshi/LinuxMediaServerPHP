@@ -5,12 +5,13 @@
  - Play, pause etc. 
  - Create categories, subpages
  
- Created with:
+ ## Created with:
   - PHP
   - jQuery
   - MySql
   - CSS Bootstrap
   - HTML5
 
+##
  * mplayer is used for playing the videos.
  * youtube-dl is used for downloading the videos.
