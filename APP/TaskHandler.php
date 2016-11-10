@@ -9,6 +9,7 @@
 
 include_once ("Media.php");
 include_once ("Player.php");
+include_once ("Database.php");
 
 class TaskHandler
 {

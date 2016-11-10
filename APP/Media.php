@@ -191,8 +191,6 @@ class Media
     }
 
 
-
-
     /**
      * @return mixed
      */
@@ -272,7 +270,5 @@ class Media
     {
         $this->filePath = $filePath;
     }
-
-
 
 }

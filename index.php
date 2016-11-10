@@ -114,8 +114,10 @@ include_once("APP/Controller.php");
             "download" => "url"
         ),
         "player" => array(
-            "startPlaying" => "videoPath",
-            "toggle"       => true,
+            "startPlaying"  => "videoPath",
+            "resume"        => true,
+            "pause"         => true,
+            "quit"          => true,
         )
     );
 
@@ -128,15 +130,11 @@ include_once("APP/Controller.php");
 
     $taskHandler = new TaskHandler();
     $taskHandler->setPost($post);
-    $taskHandler->performTask();
+    $taskHandler->assignTask();
 
     $controller = new Controller();
     //$controller->saveItem();
     $player = $controller->getPlayer();
-
-
-
-
 
 
 if(isset($_GET['pause'])){

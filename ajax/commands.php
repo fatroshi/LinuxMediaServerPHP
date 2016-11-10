@@ -10,7 +10,7 @@
 include_once ("../App/TaskHandler.php");
 
 $handler = new TaskHandler();
-$handler->setPost($_POST);
+//$handler->setPost($_POST);
 
 /*
 include_once ("../App/Controller.php");

@@ -6,6 +6,9 @@
  * Date: 02/10/16
  * Time: 22:41
  */
+
+include_once ("Media.php");
+
 class Database
 {
     // Database
