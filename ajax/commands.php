@@ -22,6 +22,8 @@ if(isset($_POST)) {
     // TODO Check if category exists in db
     // The class for navigation should handle this!!! OR Ajax??
 
+    // TODO This wont work, we need to pass in the category id!! for storing in the db.
+
     $handler->setPost($_POST);
     $handler->assignTask();
 
