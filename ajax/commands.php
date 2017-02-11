@@ -18,6 +18,7 @@ if(isset($_POST)){
 
 $handler = new TaskHandler();
 if(isset($_POST)) {
+
     $handler->setPost($_POST);
     $handler->assignTask();
 }

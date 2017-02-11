@@ -65,7 +65,7 @@ class Database
         $type = "mp4";
         $path = $mediaObject->getFilePath();
         $status = 0;
-        $name = $mediaObject->getRealFileName();
+        $name = $this->connection->real_escape_string($mediaObject->getRealFileName());
         $thumbnail = $mediaObject->getThumbnailPath();
 
         $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}')";

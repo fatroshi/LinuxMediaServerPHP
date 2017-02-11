@@ -54,8 +54,8 @@ class Controller {
 
                 $output .="<div class=\"col-sm-6 col-md-5\">";
                     $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                        $output .= "<video  id='{$filePath}' width='430' height='245' poster='{$thumbnail}' controls>";
-                        $output .= "<source src='downloads/{$fileName}' type='video/mp4'  >";
+                        $output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
+                        $output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
                         $output .= "</video>";
                     $output .="</div>";
                 $output .="</div>";
@@ -89,8 +89,8 @@ class Controller {
 
                 $output .="<div class=\"col-sm-6 col-md-5\">";
                     $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                        $output .= "<video  id='{$filePath}' width='430' height='245' poster='{$thumbnail}' controls>";
-                            $output .= "<source src='downloads/{$fileName}' type='video/mp4'  >";
+                        $output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
+                            $output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
                         $output .= "</video>";
                     $output .="</div>";
                 $output .="</div>";
@@ -158,6 +158,15 @@ class Controller {
     }
 
 
+    public function connectedToDatabase(){
+        $isConnected = true;
+
+         if($this->database->getConnection() ==null){
+             $isConnected = false;
+         }
+
+         return $isConnected;
+    }
 
 
 }
