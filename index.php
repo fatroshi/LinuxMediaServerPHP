@@ -166,17 +166,6 @@ include_once("APP/Controller.php");
     <h1>Atroshi <small>Cloud</small></h1>
 </div>
 
-
-<?php
-
-    $controller = new Controller();
-    if(!$controller->connectedToDatabase()){
-        echo "No Dabase connection";
-        exit;
-    }
-
-?>
-
 <div class="menu">
     <button type="button" class="btn btn-default downloadControl " aria-label="Left Align" >
         <span class="glyphicon glyphicon-download" ></span>
@@ -248,7 +237,16 @@ include_once("APP/Controller.php");
 
     <?php
         $controller = new Controller();
-        echo $controller->getAllItems();
+
+        if(!$controller->connectedToDatabase()){
+            echo "No Dabase connection";
+            exit;
+        }
+
+       //echo $controller->getAllItems();
+
+       echo $controller->getCategoryItems(1);
+
     ?>
     <!-- /.container -->
 <?php include_once ("layout/footer/footer.php") ?>

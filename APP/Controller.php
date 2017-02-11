@@ -11,17 +11,19 @@
 include_once ("Database.php");
 include_once("Media.php");
 include_once ("Player.php");
+include_once ("Category.php");
 
 class Controller {
 
     private $database;
+    private $category;
     private $media;
     private $player;
 
     function __construct() {
         $this->database = new Database();                                       // Connect to the database
+        $this->category = new Category($this->database);
     }
-
 
     public function updateItem($query){
         $sql = "UPDATE Items SET {$query}";
@@ -35,71 +37,13 @@ class Controller {
         }
     }
 
-    public function getAllItems(){
 
-        $output = "";
-        $sql = "SELECT * FROM Items";
-
-        $conn = $this->database->getConnection();
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-
-                $filePath = $row['Path'];
-                $status = $row['Status'];
-                $fileName = $row['FileName'];
-                $thumbnail = $row['Thumbnail'];
-
-                $output .="<div class=\"col-sm-6 col-md-5\">";
-                    $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                        $output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
-                        $output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
-                        $output .= "</video>";
-                    $output .="</div>";
-                $output .="</div>";
-
-
-            }
-        } else {
-            //return "No records found";
-        }
-
-        return $output;
+    public function getCategoryItems($categoryId){
+        return $this->category->getCategoryItems($categoryId);
     }
 
-
-    public function getItemById($id){
-
-        $output = "";
-        $sql = "SELECT * FROM Items WHERE id={$id}";
-
-        $conn = $this->database->getConnection();
-        $result = $conn->query($sql);
-
-        if ($result->num_rows > 0) {
-            // output data of each row
-            while($row = $result->fetch_assoc()) {
-
-                $filePath = $row['Path'];
-                $status = $row['Status'];
-                $fileName = $row['FileName'];
-                $thumbnail = $row['Thumbnail'];
-
-                $output .="<div class=\"col-sm-6 col-md-5\">";
-                    $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                        $output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
-                            $output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
-                        $output .= "</video>";
-                    $output .="</div>";
-                $output .="</div>";
-            }
-        } else {
-            //return "No records found";
-        }
-
-        return $output;
+    public function getAllItems(){
+        return $this->category->getAllItems();
     }
 
     /**
