@@ -65,7 +65,7 @@ class Media
     }
 
     private function downloadYoutubeVideo(){
-        $youtubeDL = "/usr/local/bin/youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' -o \"$this->downloadDirectory/%(title)s.%(ext)s\" " . $this->url;
+        $youtubeDL = "/usr/local/bin/youtube-dl -o \"$this->downloadDirectory/%(title)s.%(ext)s\" " . $this->url;
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
 

@@ -121,9 +121,7 @@ class Category
     }
 
     public function getCategoryItems($id){
-        $output = "<h1>Dolly Style</h1>";
-
-
+        $output = "";
         $sql = "SELECT * FROM Items WHERE category_id = {$id}";
 
         $conn = $this->database->getConnection();

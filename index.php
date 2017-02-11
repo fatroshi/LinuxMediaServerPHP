@@ -15,63 +15,6 @@ include_once("APP/Controller.php");
         var request;
 
         // Bind to the submit event of our form
-        $("#EXAMPLE").submit(function(event){
-
-            // Prevent default posting of form - put here to work in case of errors
-            event.preventDefault();
-
-            // Abort any pending request
-            if (request) {
-                request.abort();
-            }
-            // setup some local variables
-            var $form = $(this);
-
-            // Let's select and cache all the fields
-            var $inputs = $form.find("input, select, button, textarea");
-
-            // Serialize the data in the form
-            var serializedData = $form.serialize();
-
-            // Let's disable the inputs for the duration of the Ajax request.
-            // Note: we disable elements AFTER the form data has been serialized.
-            // Disabled form elements will not be serialized.
-            $inputs.prop("disabled", true);
-
-            // Fire off the request to /form.php
-            request = $.ajax({
-                url: "ajax/commands.php",
-                type: "post",
-                data: serializedData
-            });
-
-            // Callback handler that will be called on success
-            request.done(function (response, textStatus, jqXHR){
-                // Log a message to the console
-                console.log("Hooray, it worked!");
-                $(".result").html(response)
-            });
-
-            // Callback handler that will be called on failure
-            request.fail(function (jqXHR, textStatus, errorThrown){
-                // Log the error to the console
-                console.error(
-                    "The following error occurred: "+
-                    textStatus, errorThrown
-                );
-            });
-
-            // Callback handler that will be called regardless
-            // if the request failed or succeeded
-            request.always(function () {
-                // Reenable the inputs
-                $inputs.prop("disabled", false);
-            });
-
-        });
-
-
-        // Bind to the submit event of our form
         $("#download").click(function(event){
 
             // Let's select img tags
@@ -183,10 +126,49 @@ include_once("APP/Controller.php");
     <form>
         <div class="form-group">
             <input id="url" name="url" type="text" value="" class="form-control" placeholder="URL..."/>
+
+            <?php
+                if(isset($_GET['category']) && is_numeric($_GET['category'])){
+                    $id = $_GET['category'];
+                }else{
+                    $id = 0;
+                }
+            ?>
+
+            <input id="categoryId" name="categoryId" type="hidden" value="<?php echo $id ?>" />
         </div>
         <div class="btn btn-default" id="download">Download </div>
     </form>
 </div>
+
+<?php
+$controller = new Controller();
+
+if(!$controller->connectedToDatabase()){
+    echo "No Dabase connection";
+    exit;
+}
+
+if(isset($_POST['newCategory']) && $_POST['name'] != ""){
+    $name = $_POST['name'];
+    // Save to db
+    $controller->addCategory($name);
+}
+?>
+
+<div class="well">
+    <form action="" method="post">
+        <h2>Category name</h2>
+        <input type="text" name="name" class="form-control" placeholder="Category name..."><br>
+        <input type="submit" value="Save" name="newCategory" class="btn btn-default">
+    </form>
+</div>
+
+
+
+
+
+
 
 <div class="result">
 
@@ -235,18 +217,20 @@ include_once("APP/Controller.php");
 
 </div>
 
-    <?php
-        $controller = new Controller();
 
-        if(!$controller->connectedToDatabase()){
-            echo "No Dabase connection";
-            exit;
-        }
 
-       //echo $controller->getAllItems();
+<?php
 
-       echo $controller->getCategoryItems(1);
 
-    ?>
+    //CREATE A CLASS FOR THIS
+    if(isset($_GET['category']) && is_numeric($_GET['category'])){
+        $categoryId = $_GET['category'];
+        echo $controller->getCategoryItems($categoryId);
+    }
+
+    echo $controller->getAllCategories();
+?>
+
+
     <!-- /.container -->
 <?php include_once ("layout/footer/footer.php") ?>

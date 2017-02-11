@@ -62,13 +62,18 @@ class Database
 
 
     public function saveMediaFile($mediaObject){
+        if(isset($_GET['category']) && is_numeric($_GET['category'])){
+            $categoryId = $_GET['category'];
+        }else{
+            $categoryId = 1;
+        }
         $type = "mp4";
         $path = $mediaObject->getFilePath();
         $status = 0;
         $name = $this->connection->real_escape_string($mediaObject->getRealFileName());
         $thumbnail = $mediaObject->getThumbnailPath();
 
-        $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}')";
+        $sql = "INSERT INTO Items (FileType, Path, Status, FileName, Thumbnail, category_id) values ('{$type}','{$path}',{$status},'{$name}','{$thumbnail}',{$categoryId})";
 
 
         if($this->connection->query($sql) === true){

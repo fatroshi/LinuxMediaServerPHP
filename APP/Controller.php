@@ -37,6 +37,59 @@ class Controller {
         }
     }
 
+    public function addCategory($name){
+        // Add category
+        $sql = "INSERT INTO categories (title,img) values ('{$name}', '')  ";
+        if($this->database->getConnection()->query($sql) === true){
+            return true;
+        }else{
+            echo "Error: " . $sql . "<br>" . $this->database->error;
+            return false;
+        }
+    }
+
+
+    public function getAllCategories(){
+
+        $output = "";
+
+        $sql = "SELECT * FROM categories";
+        $conn = $this->database->getConnection();
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+                $title = $row['title'];
+                $id = $row['id'];
+                $img = $row['img'];
+
+
+
+                if($img == ""){
+                    $output .="<div class=\"col-sm-6 col-md-5\">";
+                    $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
+                    $output .= "[ Link add image ]";
+                    $output .="</div>";
+                    $output .= "<a href='?category={$id}'>{$title}</a>";
+                    $output .="</div>";
+                }else{
+                    $output .="<div class=\"col-sm-6 col-md-5\">";
+                    $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
+                    //$output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
+                    //$output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
+                    //$output .= "</video>";
+                    $output .= "MY IMAGE";
+                    $output .="</div>";
+                    $output .= "<a href='?category={$id}'>{$title}</a>";
+                    $output .="</div>";
+                }
+
+            }
+        }
+
+        return $output;
+    }
 
     public function getCategoryItems($categoryId){
         return $this->category->getCategoryItems($categoryId);

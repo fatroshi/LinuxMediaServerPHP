@@ -19,8 +19,12 @@ if(isset($_POST)){
 $handler = new TaskHandler();
 if(isset($_POST)) {
 
+    // TODO Check if category exists in db
+    // The class for navigation should handle this!!! OR Ajax??
+
     $handler->setPost($_POST);
     $handler->assignTask();
+
 }
 
 //$handler->setPost($_POST);
