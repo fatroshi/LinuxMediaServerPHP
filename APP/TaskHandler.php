@@ -19,6 +19,7 @@ class TaskHandler
     private $player;
     private $post;
     private $tasks;
+    private $categoryId;
 
 
     public function TaskHandler(){
@@ -42,9 +43,12 @@ class TaskHandler
             $task       = $this->post['task'];
             $command    = $this->post['command'];
             $value      = $this->post['value'];
+            echo $category   = $this->post['category'];
 
             switch ($task){
                 case "media":
+                    // Store category id
+                    $this->categoryId = intval($category);
                     $this->media($command,$value);
                     break;
                 case "player":
@@ -61,7 +65,7 @@ class TaskHandler
         // Get post url;
         $this->media->setUrl($url);
         if($this->media->download()){
-            $this->database->saveMediaFile($this->media);
+            $this->database->saveMediaFile($this->media, $this->categoryId);
             $id = $this->database->getLastId();
             echo $this->database->getItemById($id);
             echo "<div class=\"alert alert-success\" role=\"alert\">Download completed</div>";      // Should fix this... find a better way

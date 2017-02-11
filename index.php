@@ -17,9 +17,11 @@ include_once("APP/Controller.php");
         // Bind to the submit event of our form
         $("#download").click(function(event){
 
-            // Let's select img tags
+            // used for url
             var input = $("#url").val();
-            request = $.post( "ajax/commands.php", { task: "media", command: "download", value: input } );
+            // categoryId
+            var categoryId = $("#categoryId").val();
+            request = $.post( "ajax/commands.php", { task: "media", command: "download", value: input, category: categoryId} );
 
             // Callback handler that will be called on success
             request.done(function (response, textStatus, jqXHR){
@@ -89,16 +91,21 @@ include_once("APP/Controller.php");
         $(".download").hide();
 
         $(".downloadControl").click(function(event){
-            var input = $(this).attr("id");
-            $( ".download" ).toggle( flipControl++ % 2 === 0 );
+            $( ".download" ).toggle( flipDownload++ % 2 === 0 );
         });
 
         var flipControl = 0;
         $(".control").hide();
 
         $(".mediaControl").click(function(event){
-            var input = $(this).attr("id");
-            $( ".control" ).toggle( flipControl++ % 2 === 0 );
+            $(".control" ).toggle( flipControl++ % 2 === 0 );
+        });
+
+        var flipNewCategory = 0;
+        $(".addCategory").hide();
+
+        $(".categoryControl").click(function(event){
+            $(".addCategory" ).toggle( flipNewCategory++ % 2 === 0 );
         });
 
     });
@@ -106,12 +113,16 @@ include_once("APP/Controller.php");
 
 
 <div class="page-header">
-    <h1>Atroshi <small>Cloud</small></h1>
+    <h1><a href="index.php">Atroshi</a> <small>Cloud</small></h1>
 </div>
 
 <div class="menu">
     <button type="button" class="btn btn-default downloadControl " aria-label="Left Align" >
         <span class="glyphicon glyphicon-download" ></span>
+    </button>
+
+    <button type="button" class="btn btn-default categoryControl " aria-label="Left Align" >
+        <span class="glyphicon glyphicon-plus" ></span>
     </button>
 
     <button type="button" class="btn btn-default mediaControl " aria-label="Left Align" >
@@ -133,6 +144,7 @@ include_once("APP/Controller.php");
                 }else{
                     $id = 0;
                 }
+
             ?>
 
             <input id="categoryId" name="categoryId" type="hidden" value="<?php echo $id ?>" />
@@ -156,7 +168,7 @@ if(isset($_POST['newCategory']) && $_POST['name'] != ""){
 }
 ?>
 
-<div class="well">
+<div class="well addCategory">
     <form action="" method="post">
         <h2>Category name</h2>
         <input type="text" name="name" class="form-control" placeholder="Category name..."><br>
