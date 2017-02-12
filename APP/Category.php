@@ -137,8 +137,9 @@ class Category
                 $thumbnail = $row['Thumbnail'];
 
                 $output .="<div class=\"col-sm-6 col-md-5\">";
+                $output .="<div id='{$filePath}' class='tv'><h1 class='glyphicon glyphicon-blackboard'></h1></div>";
                 $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                $output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
+                $output .= "<video width='430' height='245' poster='{$thumbnail}' controls>";
                 $output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
                 $output .= "</video>";
                 $output .="</div>";

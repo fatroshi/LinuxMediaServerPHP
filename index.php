@@ -46,10 +46,10 @@ include_once("APP/Controller.php");
             });
         });
 
-        $("video").click(function(event){
+        $(".tv").click(function(event){
 
             // Let's select img tags
-            var input = $(this).attr("id");
+            var input = $(this).attr('id')
             request = $.post( "ajax/commands.php", { task: "player", command: "play", value: input });
 
             // Callback handler that will be called on success
