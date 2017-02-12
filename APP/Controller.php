@@ -12,6 +12,7 @@ include_once ("Database.php");
 include_once("Media.php");
 include_once ("Player.php");
 include_once ("Category.php");
+include_once ("Upload.php");
 
 class Controller {
 
@@ -21,6 +22,7 @@ class Controller {
     private $player;
 
     function __construct() {
+        $this->media = new Media();
         $this->database = new Database();                                       // Connect to the database
         $this->category = new Category($this->database);
     }
@@ -37,14 +39,39 @@ class Controller {
         }
     }
 
-    public function addCategory($name){
-        // Add category
-        $sql = "INSERT INTO categories (title,img) values ('{$name}', '')  ";
-        if($this->database->getConnection()->query($sql) === true){
-            return true;
-        }else{
-            echo "Error: " . $sql . "<br>" . $this->database->error;
-            return false;
+    public function addCategory($name, $image){
+
+
+        $imagePath = $this->media->getDownloadDirectory();
+
+        $imageName = $image["name"];
+        $imageName = $this->media->cleanNameForThumbnail($imageName);
+        $fileNameAndExt = explode(".", $imageName);
+        $fileName = current($fileNameAndExt);
+
+        $handle = new upload($image);
+        if ($handle->uploaded) {
+            //$handle->file_new_name_body   = 'image_resized';
+            $handle->file_new_name_body   = $fileName;
+            $handle->image_resize         = false;
+            $handle->image_x              = 100;
+            $handle->image_ratio_y        = true;
+            $handle->process($imagePath);
+            if ($handle->processed) {
+                //echo 'image resized';
+                $handle->clean();
+
+                // Add category to db
+                $sql = "INSERT INTO categories (title,img) values ('{$name}','{$imageName}')  ";
+                if($this->database->getConnection()->query($sql) === true){
+                    return true;
+                }else{
+                    echo "Error: " . $sql . "<br>" . $this->database->error;
+                    return false;
+                }
+            } else {
+                echo 'error : ' . $handle->error;
+            }
         }
     }
 
@@ -64,23 +91,19 @@ class Controller {
                 $id = $row['id'];
                 $img = $row['img'];
 
-
-
                 if($img == ""){
                     $output .="<div class=\"col-sm-6 col-md-5\">";
                     $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
                     $output .= "[ Link add image ]";
                     $output .="</div>";
                     $output .= "<a href='?category={$id}'>{$title}</a>";
+                    $output .= " <a href='?category={$id}'><span class='glyphicon glyphicon-picture'></span></a>";
                     $output .="</div>";
                 }else{
                     $output .="<div class=\"col-sm-6 col-md-5\">";
-                    $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
-                    //$output .= "<video  id=\"{$filePath}\" width='430' height='245' poster='{$thumbnail}' controls>";
-                    //$output .= "<source src=\"downloads/{$fileName}\" type='video/mp4'  >";
-                    //$output .= "</video>";
-                    $output .= "MY IMAGE";
-                    $output .="</div>";
+                        $output .="<div class=\"thumbnail embed-responsive embed-responsive-16by9\">";
+                        $output .= "<a href='?category={$id}'><img src='" ."downloads/" .$img . "' border='0'></a>";
+                        $output .="</div>";
                     $output .= "<a href='?category={$id}'>{$title}</a>";
                     $output .="</div>";
                 }

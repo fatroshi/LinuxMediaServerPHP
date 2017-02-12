@@ -12,17 +12,21 @@ class Media
     private $url;
     private $downloadDirectory;
     private $realFileName;
-    private $fileName;
+    private $thumbNail;
     private $filePath;
     private $cmdResultVideo;
     private $cmdOutputVideo;
     private $cmdResultImg;
     private $cmdOutputImg;
     private $message;
+    private $lastCommand;
+    private $databse;
 
     function __construct() {
         // Set download directory
         $this->downloadDirectory = "/Applications/MAMP/htdocs/cinema/downloads";
+
+        $this->database = new Database();
 
     }
 
@@ -33,7 +37,7 @@ class Media
         return $str;
     }
 
-    private function cleanNameForThumbnail ($str){
+    public function cleanNameForThumbnail ($str){
         $search  = array(' ', '&', 'Å', 'Ä', 'Ö', 'å', 'ä', 'ö', "'", "\"", '|', '/', '-');
         $replace = array('', 'and', 'A',  'A', 'O', 'a', 'a', 'o','','','.', '','_');
         $str = str_replace($search, $replace, $str);
@@ -65,7 +69,12 @@ class Media
     }
 
     private function downloadYoutubeVideo(){
-        $youtubeDL = "/usr/local/bin/youtube-dl -o \"$this->downloadDirectory/%(title)s.%(ext)s\" " . $this->url;
+
+        $number = $this->database->getLastItemId() + 1;
+
+        //$this->lastCommand = $youtubeDL = "/usr/local/bin/youtube-dl -o \"$this->downloadDirectory/%(title)s.%(ext)s\" --write-thumbnail "   . $this->url;
+        $this->lastCommand = $youtubeDL = "/usr/local/bin/youtube-dl -o \"$this->downloadDirectory/$number.%(ext)s\" --write-thumbnail "   . $this->url;
+
         exec($youtubeDL, $output, $ret);
         if($ret ==0){
 
@@ -75,7 +84,7 @@ class Media
             // Set file name
             $tmpArray = explode( "/", $filePath);
             $this->realFileName = end($tmpArray);
-            $this->fileName = $this->cleanNameForThumbnail($this->realFileName);
+            echo $this->thumbNail = current(explode("." , $this->realFileName));
             $this->filePath = $this->cleanPath($filePath);
 
             return true;
@@ -87,6 +96,7 @@ class Media
         }
 
     }
+
 
     /**
      * Checks if the video was downloaded and that the thumbnail was created.
@@ -100,16 +110,19 @@ class Media
             $this->message['Type'] = "Video from youtube.";
             if($this->downloadYoutubeVideo()){
                 $this->message['Download_Status'] = "Youtube video downloaded: " . $this->realFileName;
+                return true;
+                /*
                 if($this->createThumbnail()){
                     $this->message['Thumbnail_Status'] = "Thumbnail created";
                     $this->message['Status'] = "Success";
                     return true;
                 }else{
-                    $this->message['Status'] = "Could not create thumbnail image:";
+                    $this->message['Status'] = "Could not create thumbnail image: convert name: " . $this->lastCommand;
                     return false;
                 }
+                */
             }else{
-                $this->message['Status'] = "Could not download YouTube video: " . $this->realFileName;
+                $this->message['Status'] = "Could not download YouTube video: " . $this->lastCommand;
                 return false;
             }
         }else{
@@ -122,9 +135,9 @@ class Media
      * @return bool true if the thumbnail could be created
      */
     public function createThumbnail(){
+        $this->lastCommand = $thumbnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  " . $this->downloadDirectory . "/" . $this->thumbNail . ".png";
 
-        $thumpnail = "/usr/local/bin/ffmpeg -itsoffset -1 -i " . $this->filePath . " -vframes 1 -filter:v scale=\"400:-1\"  " . $this->downloadDirectory . "/" . $this->fileName . ".png";
-        exec($thumpnail, $output, $ret);
+        exec($thumbnail, $output, $ret);
 
         if($ret ==0){
             // Success
@@ -159,11 +172,11 @@ class Media
 
 
     public function getThumbnailPath(){
-        return "downloads/" . $this->fileName . ".png";
+        return "downloads/" . $this->thumbNail . ".jpg";
     }
 
     public function deleteVideo(){
-        $video = "dowloads/" . $this->fileName;
+        $video = "dowloads/" . $this->thumbNail . ".mp4";
         if(file_exists($video)){
             unlink($video);
         }
@@ -172,8 +185,8 @@ class Media
 
     public function deleteFiles(){
 
-        $thumbnail = "downloads/" . $this->fileName . ".png";
-        $video = "dowloads/" . $this->fileName;
+        $thumbnail = "downloads/" . $this->thumbNail . ".jpg";
+        $video = "dowloads/" . $this->thumbNail . ".mp4";
 
         if(file_exists($thumbnail)){
             unlink($thumbnail);
@@ -242,17 +255,17 @@ class Media
     /**
      * @return mixed
      */
-    public function getFileName()
+    public function getThumbNail()
     {
-        return $this->fileName;
+        return $this->thumbNail;
     }
 
     /**
-     * @param mixed $fileName
+     * @param mixed $thumbNail
      */
-    public function setFileName($fileName)
+    public function setThumbNail($thumbNail)
     {
-        $this->fileName = $fileName;
+        $this->thumbNail = $thumbNail;
     }
 
     /**

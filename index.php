@@ -161,17 +161,20 @@ if(!$controller->connectedToDatabase()){
     exit;
 }
 
-if(isset($_POST['newCategory']) && $_POST['name'] != ""){
+if(isset($_POST['newCategory']) && $_POST['name'] != "" && $_FILES['image'] !=""){
     $name = $_POST['name'];
+    $image = $_FILES['image'];
     // Save to db
-    $controller->addCategory($name);
+    $controller->addCategory($name, $image);
+
 }
 ?>
 
 <div class="well addCategory">
-    <form action="" method="post">
+    <form enctype="multipart/form-data" method="post" action="">
         <h2>Category name</h2>
         <input type="text" name="name" class="form-control" placeholder="Category name..."><br>
+        <input type="file" size="256" name="image" value="">
         <input type="submit" value="Save" name="newCategory" class="btn btn-default">
     </form>
 </div>
@@ -232,8 +235,6 @@ if(isset($_POST['newCategory']) && $_POST['name'] != ""){
 
 
 <?php
-
-
     //CREATE A CLASS FOR THIS
     if(isset($_GET['category']) && is_numeric($_GET['category'])){
         $categoryId = $_GET['category'];

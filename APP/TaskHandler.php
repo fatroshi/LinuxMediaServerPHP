@@ -43,7 +43,13 @@ class TaskHandler
             $task       = $this->post['task'];
             $command    = $this->post['command'];
             $value      = $this->post['value'];
-            echo $category   = $this->post['category'];
+
+            if(isset($this->post['category'])){
+                $category   = $this->post['category'];
+            }else{
+                $category = 0;
+            }
+
 
             switch ($task){
                 case "media":

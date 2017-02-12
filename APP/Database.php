@@ -117,6 +117,18 @@ class Database
         return $this->connection->insert_id;
     }
 
+    public function getLastItemId(){
+        $sql = "SELECT id FROM items ORDER BY id DESC LIMIT 1";
+        $result = $this->connection->query($sql);
+
+        $id = 0;
+        while($row = $result->fetch_assoc()) {
+            $id =  $row['id'];
+        }
+
+        return $id;
+    }
+
 }
 
 ?>
